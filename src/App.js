@@ -1,53 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import VideoApp from './routes/videoApp';
+import HomeApp from './routes/homeApp';
+import SearchApp from './routes/searchApp';
+import EditorApp from './routes/editorApp';
 
+const Err = () => {
+  return <h1>404</h1>
+}
 
 class App extends Component {
-  constructor() {
-    this.state = {
-      currentTab = '',
-      currentUser = '',
-      recentUsers = [],
-      users = {
-     /* userName: {
-          feeds:[
-            feed: {
-              videos: []
-              lastUpdated: date
-            }
-          ] <--- list of feeds,
-          initials: '' <--- used for the 'icon' for quick switch Menu
-          history: [{
-            vidID: '', <-- alphanumerical video id
-            channelName: '', <-- channel video originated from
-            description: '', <--- description of the video
-            viewCount: '', <--- how many times it was watched
-            uploadDate: '', <--- date video was put on youtube 
-          }]
-        } */
-      },
-    }
-
-    updateUser = (userName, key, data) => {
-      //update specific users info, will need if conditionals
-    }
-
-    updateFeeds = (feeds) => {
-      //update feeds key
-      //checks to see if videos haven't been updated in a while,
-      //gets new videos
-    }
-
-    changeUser = (userName) => {
-      //handles changing the user
-      //also modifies recent users
-    }
-
-  }
 
   render() {
-    return;
+    return (
+    <>
+      <nav className="navbar navbar-light bg-light justify-content-between">
+        <a className="navbar-brand">Navbar</a>
+        <form className="form-inline">
+          <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+          <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </nav>
+      <HashRouter>
+        <Switch>
+          <Route path='/' exact component={HomeApp} />
+          <Route path='/editor' exact component={EditorApp} />
+          <Route path='/search' exact component={SearchApp} />
+          <Route path='/video/:id' exact component={VideoApp} />
+          <Route component={Err} />
+        </Switch>
+      </HashRouter>
+    </>)
   }
 }
 
