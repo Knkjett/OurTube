@@ -22,6 +22,7 @@
   * User List
     - Add user
     - Remove user
+    - Search user
     - Generate 'selective' photos as profile pictures.
   * Feed List
     - Add feed
@@ -37,7 +38,7 @@
     - View modes
     
 Additional Features
- - [ ] Night Mode
+ - [ ] Night Mode/Themes
  - [ ] Quick Swap between most recent users
  - [ ] YouTube Comments
  - [ ] Subscription feature for Home Page
@@ -49,3 +50,4 @@ Additional Features
 - Team member [Karan-Taneja](https://github.com/Karan-Taneja)
 - Team member [Kevin](https://github.com/Knkjett)
 - Team member [Qiuyun](https://github.com/qiuyunchen)
+

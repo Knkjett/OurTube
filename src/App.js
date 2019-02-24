@@ -10,8 +10,15 @@ const Err = () => {
 }
 
 class App extends Component {
-
+  
   render() {
+
+    /*
+    NAV STATE
+      currentUser: 'guest', // Unused take from recentUsers
+      recentUsers: ['guest', 'mo', 'taq'],
+    */
+
     return (
     <>
       <nav className="navbar navbar-light bg-light justify-content-between">
