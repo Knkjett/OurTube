@@ -45,6 +45,7 @@ Additional Features
  - [ ] Channel Search for Search Page
  - [ ] Suggest similar videos for Video Page
  - [ ] Playlist creation
+ - [ ] History Page
 ---
 - Team member [Abdel](https://github.com/AbdelOufkir1)
 - Team member [Karan-Taneja](https://github.com/Karan-Taneja)
