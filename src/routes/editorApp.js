@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'flexboxgrid/dist/flexboxgrid.min.css';
+import UserEditor from './containers/Editor/userlist';
+import FeedEditor from './containers/Editor/feedlist';
+
 
 class EditorApp extends Component {
   constructor(props) {
     super(props)
-    this.state={
-      users : {
+    this.state = {
+      recentUsers: ['guest', 'mo', 'taq'],
+      users: {
         'guest': {
           feeds: [
             {
@@ -32,13 +38,27 @@ class EditorApp extends Component {
                 },
               ],
               lastUpdated: new Date(),
-            }],
+            }
+          ],
+        }
+      }
     }
   }
-}
+
+  componentDidMount() {
+    const usersList = Object.keys(this.state.users);
+    const currUser = this.state.recentUsers[0];
+    const currFeedObjs = this.state.users[currentUser].feeds;
+    const currentFeeds = currFeedObjs.map( feed => feed.feedname );
   }
+
   render() {
-    return (<h1>Editor Page</h1>)
+    return (
+      <div>
+        <UserEditor />
+        <FeedEditor />
+      </div>
+    );
   }
 }
 
