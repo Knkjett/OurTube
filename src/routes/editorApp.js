@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'flexboxgrid/dist/flexboxgrid.min.css';
-import UserEditor from './containers/Editor/userlist';
-import FeedEditor from './containers/Editor/feedlist';
+import AddUser from '../components/Editor/adduser';
+import AddFeed from '../components/Editor/addfeed';
+import UserList from '../containers/Editor/userlist';
+import FeedList from '../containers/Editor/feedlist';
+import './editorApp.css';
 
 
 class EditorApp extends Component {
@@ -12,6 +15,7 @@ class EditorApp extends Component {
       recentUsers: ['guest', 'mo', 'taq'],
       users: {
         'guest': {
+          displayName: 'Guest',
           feeds: [
             {
               feedname: 'cats',
@@ -46,17 +50,28 @@ class EditorApp extends Component {
   }
 
   componentDidMount() {
+    // localStorage.getItem('');
     const usersList = Object.keys(this.state.users);
     const currUser = this.state.recentUsers[0];
-    const currFeedObjs = this.state.users[currentUser].feeds;
+    const currFeedObjs = this.state.users[currUser].feeds;
     const currentFeeds = currFeedObjs.map( feed => feed.feedname );
+    this.setState({});
+    // localStorage.setItem('');
   }
 
   render() {
     return (
-      <div>
-        <UserEditor />
-        <FeedEditor />
+      <div className='editor-wrapper'>
+        <div className='userbox'>
+          <AddUser />
+          <br />          
+          <UserList />
+        </div>
+        <div className='feedbox'>
+          <AddFeed />
+          <br />
+          <FeedList />
+        </div>
       </div>
     );
   }

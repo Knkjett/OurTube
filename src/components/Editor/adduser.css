@@ -1,0 +1,6 @@
+.nowrap {
+    display: flex;
+}
+.user-input {
+    width: 100%;
+}
