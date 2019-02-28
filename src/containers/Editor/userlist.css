@@ -1,7 +1,7 @@
 .current-user {
     width: 100%;
     padding: 10px 15px;
-    border: 1px solid rgb(54, 142, 243);
+    border: 2px solid grey;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,4 +40,8 @@
     font-size: 13pt;
     letter-spacing: 1.5px;
     color: lightgray;
+}
+.no-srch-match {
+    padding: 10px 15px;
+    text-align: center;
 }

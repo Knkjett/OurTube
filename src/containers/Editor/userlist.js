@@ -8,7 +8,11 @@ const UserList = props =>{
         currUser, 
         clickUser, 
         selectedIndex,
+        showMatchingUsers,
+        searchStr,
+        userSrchInputField,
     } = props;
+    const hasMatchingUser = orderedList.some(e =>e.toLowerCase().includes(searchStr));
 
     return (
         <div className='userList-wrapper'>
@@ -20,12 +24,19 @@ const UserList = props =>{
                 </div>
                 <div className='user-dropdown'>
                     <div className='search-div'>
-                        <input className='search' type='text' placeholder='Search user...'/>
+                        <input className='search' onChange={showMatchingUsers} type='text' placeholder='Search user...' value={userSrchInputField}/>
                     </div>
                     <div className='user-dlist'>
-                        {orderedList.map( (e,i) => {
-                            return <User user={e} key={i} index={i} clickUser={clickUser} selectedIndex={selectedIndex}/>
-                        })}
+                        { hasMatchingUser 
+                        ?
+                            orderedList.map( (e,i) => {
+                                if (e.toLowerCase().includes(searchStr)){
+                                    return <User user={e} key={i} index={i} clickUser={clickUser} selectedIndex={selectedIndex}/>
+                                }
+                            })
+                        :
+                            <div className='no-srch-match'>No matching user</div>
+                        }
                     </div>
                 </div>
             </div>

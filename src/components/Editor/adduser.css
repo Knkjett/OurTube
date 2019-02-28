@@ -3,8 +3,8 @@
 }
 .user-input {
     width: 100%;
-    padding-left: 10px;
     letter-spacing: 1px;
+    padding: 10px 15px;
 }
 .input-row {
     font-size: 15pt;

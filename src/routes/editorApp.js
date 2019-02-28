@@ -12,8 +12,10 @@ class EditorApp extends Component {
     this.state = {
       addUserInputField: '',
       userSrchInputField: '',
-      userList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul'],
-      orderedList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul'],
+      userSrchStr: '',
+      userList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul','Tamarind'],
+      orderedList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul','Tamarind'],
+
       selectedIndex: 0,
       users: {
         'guest': {
@@ -52,13 +54,19 @@ class EditorApp extends Component {
   }
 // Add User Logic ----------------->
   clickAddBtn = (e) =>{
-    if (!this.state.addUserInputField) return;
     const newUser = this.state.addUserInputField;
     const userKey = newUser.toLowerCase();
 
-    if (this.state.users[userKey]){
+    if (!newUser) return;
+
+    if (newUser.length >30){
+      alert('The user name is too long!');
+      this.setState({addUserInputField: ''});
+
+    } else if (this.state.users[userKey]){
       alert('This user already exists. Please choose another name.');
       this.setState({addUserInputField: ''});
+
     } else {
       const newUserList = [newUser].concat([this.state.userList]);
       const newOrderedList = this.state.orderedList.concat([newUser]);
@@ -79,7 +87,14 @@ class EditorApp extends Component {
   onUserEnter = (e) =>{
     if (e.key !== 'Enter') return;
     if (!this.state.addUserInputField) return;
-    this.clickAddBtn();
+    if (this.state.addUserInputField.length > 25){
+      alert('The user name is too long!')
+      this.setState({
+        addUserInputField: '',
+      });
+    } else {
+      this.clickAddBtn();
+    }
   }
 
   updateUserInputField = (e) =>{
@@ -88,7 +103,22 @@ class EditorApp extends Component {
 // <--------------- Add User Logic
 
 // User Dropdown Logic ----------------->
-  clickUser = (e) =>{
+  showMatchingUsers = (e) => {
+    if(e.target.value.length > 25){
+      alert('The username is too long!')
+      this.setState({
+        userSrchInputField: '',
+        userSrchStr: '',
+      });
+    } else {
+      this.setState({
+        userSrchStr: e.target.value.toLowerCase().trim(),
+        userSrchInputField: e.target.value,
+      });
+    }
+  }
+
+  clickUser = (e) => {
     const index = parseInt(e.target.getAttribute('index'));
     const mostRecentUser = this.state.orderedList[index];
     const usersSet = new Set([mostRecentUser].concat(this.state.userList));
@@ -97,8 +127,10 @@ class EditorApp extends Component {
       userList: userArr, 
       selectedIndex: index,
       userSrchInputField: '',
+      userSrchStr: '',
     });
   }
+
 // <--------------- User Dropdown Logic
 
 
@@ -119,6 +151,8 @@ class EditorApp extends Component {
             userList, 
             addUserInputField,
             selectedIndex,
+            userSrchStr,
+            userSrchInputField,
           } = this.state;
 
     return (
@@ -136,6 +170,9 @@ class EditorApp extends Component {
             currUser={userList[0]} 
             orderedList={orderedList}
             selectedIndex={selectedIndex}
+            showMatchingUsers={this.showMatchingUsers}
+            searchStr={userSrchStr}
+            userSrchInputField={userSrchInputField}
           />
         </div>
         <div className='feedbox'>
