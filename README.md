@@ -1,6 +1,7 @@
 # Binge Watch | React App
 - Team Project to create React App utilizing YouTube API for search. Mimic Youtube features to display content such as Home/Feed view, Search feature, Video Page and additional extra features. 
 - NPM Packages used: Axios, BootStrap, Flexbox Grid, Moment, React, React-dom, React-router-dom
+- [Project Task Tree](https://github.com/Knkjett/OurTube/projects/1)
 
 ## Key features
 - Home Page [Karan-Taneja]
@@ -45,6 +46,7 @@ Additional Features
  - [ ] Channel Search for Search Page
  - [ ] Suggest similar videos for Video Page
  - [ ] Playlist creation
+ - [ ] History Page
 ---
 - Team member [Abdel](https://github.com/AbdelOufkir1)
 - Team member [Karan-Taneja](https://github.com/Karan-Taneja)

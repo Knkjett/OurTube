@@ -6,7 +6,7 @@ const getSearchResults = (search, token) => {
       url: 'https://www.googleapis.com/youtube/v3/search',
       params: {
         part: 'snippet',
-        maxResults: 8,
+        maxResults: 24,
         videoDefinition: 'high',
         type: 'video',
         videoEmbeddable: 'true',
