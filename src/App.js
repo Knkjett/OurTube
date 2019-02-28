@@ -21,7 +21,7 @@ class App extends Component {
 
     return (
     <>
-      <nav className="navbar navbar-light bg-light justify-content-between">
+     <nav className="navbar navbar-light bg-light justify-content-between">
         <a className="navbar-brand">Navbar</a>
         <form className="form-inline">
           <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
