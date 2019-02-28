@@ -10,7 +10,7 @@ const getSearchResults = (search, token) => {
         videoDefinition: 'high',
         type: 'video',
         videoEmbeddable: 'true',
-        key: 'AIzaSyCW33eITeJJ3jx8nVJKFylDq6R4V5aTWGU',
+        key: "AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU", // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg'
         q: `${search}`,
         pageToken: `${token}`
       }
@@ -40,7 +40,7 @@ const getVideoInfo = (videoID) => {
         id: `${videoID}`,
         type: 'list',
         part: 'snippet,contentDetails,statistics',
-        key: 'AIzaSyCW33eITeJJ3jx8nVJKFylDq6R4V5aTWGU',
+        key: "AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU" , // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg'
       }
     })
     .then((res)=>{
@@ -53,6 +53,7 @@ const getVideoInfo = (videoID) => {
         'viewCount': info.statistics.viewCount,
         'publishedAt' : info.snippet.publishedAt,
         'thumbnail': info.snippet.thumbnails.maxres.url,
+        'tags': `${info.snippet.tags[0]} ${info.snippet.tags[1]}`,
       };
       return videoStats;
     })

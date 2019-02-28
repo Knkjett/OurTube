@@ -16,7 +16,7 @@ class SearchApp extends Component {
         userLists: ['guest'],
         users: {
           'guest': {
-            history: ['dasd',],
+            history: [],
             queries: [],
           }
         }
