@@ -1,23 +1,37 @@
-.title{
+.listViewtitle{
   font-size: 20px;
 }
-.channelInfo{
+.listViewChannelInfo{
   color: darkgray;
   font-size:14px;
 }
-.desc{
+.listViewDesc{
   font-size: 14px;
 }
 .hiddenVid{
   display: none !important;
   visibility: hidden;
 }
-.thumbnail{
+.listViewThumbnail{
   height: auto;
   width: 100%;
 }
-.videoPad{
-  padding-top: 10px;
-  padding-bottom: 10px;
+.listViewVideoPad{
+  padding-top: 15px;
+  padding-bottom: 15px;
   border-bottom: gray 1px solid;
 }
+/* 
+.toTop {
+  border: 1px outset blue;
+  border-radius: 10px;
+  background-color: lightBlue;
+  height: 35px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.toTop:hover {
+ background-color: blue;
+  color: white;
+} */

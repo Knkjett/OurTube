@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getSearchResults, getItem, setItem } from '../services/service'
+import {withRouter} from 'react-router-dom'
 import { VideoCard, HiddenVid } from '../components/Search/searchList'
+import Footer from '../components/footer'
 
 class SearchApp extends Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class SearchApp extends Component {
         userLists: ['guest'],
         users: {
           'guest': {
-            history: [],
+            history: ['dasd',],
             queries: [],
           }
         }
@@ -41,6 +43,7 @@ class SearchApp extends Component {
   }
 
   componentDidMount = () => {
+    window.addEventListener('scroll', this.handleOnScroll);
     getItem('appdata')
       .then((data) => {
         if (!data) {
@@ -52,38 +55,24 @@ class SearchApp extends Component {
           })
         }
       })
-    // if (!localStorage.getItem('users')) {
-    //   localStorage.setItem('users', JSON.stringify(this.state.appdata.users))
-    //   if (!localStorage.getItem('userLists')) {
-    //     localStorage.setItem('userLists', JSON.stringify(this.state.userLists))
-    //   }
-    // }
-    // else if (!localStorage.getItem('userLists')) {
-    //   localStorage.setItem('userLists', JSON.stringify(this.state.userLists))
-    //   if (!localStorage.getItem('users')) {
-    //     localStorage.setItem('users', JSON.stringify(this.state.appdata.users))
-    //   }
-    // }
-    // else {
-    //   let userList = localStorage.getItem('users');
-    //   let userListsList = localStorage.getItem('userLists')
-    //   this.setState({
-    //     users: JSON.parse(userList),
-    //     userLists: JSON.parse(userListsList),
-    //   })
-    // }
-    // doSearch('','')
+    if(this.props.isSearch){
+      const {search} = this.props.match.params;
+      this.setState({
+        value: search
+      })
+      this.doSearch(search,'')
+    }
   }
+  
 
   showMore = () => {
     let currentQuery = this.state.appdata.users[this.state.appdata.userLists[0]].queries[0]
     let val = this.state.shownResults + 8
-    if(val > (currentQuery.results.length)){
+    if(val > 24){
       window.scrollTo(0, 0);
-      this.doSearch(currentQuery.query,currentQuery.results[0].token)
+      this.doSearch(currentQuery.query, currentQuery.results[0].token)
     }
     else{
-      console.log(this.state)
     this.setState({
       shownResults: val,
     })
@@ -96,21 +85,75 @@ class SearchApp extends Component {
       return (<></>)
     else {
       return this.state.appdata.users[currentUser].queries[0].results.map((e, i) => {
-        // console.log(i) 
         if (i < this.state.shownResults) {
-          return <VideoCard ele={e} key={i} />
+          return <VideoCard ele={e} key={i} cb= {this.toVideo}/>
         }
         else {
-          return <HiddenVid ele={e} key={i} />
+          return <HiddenVid ele={e} key={i} cb= {this.toVideo}/>
         }
       })
+    }
+  }
+  historyList = () =>{
+    let currentUser = this.state.appdata.userLists[0]; 
+    if (!this.state.appdata.users[currentUser].queries[0])
+      return (<></>)
+    else {
+      return this.state.appdata.users[currentUser].history.map((e, i) => {
+        if (i < this.state.shownResults) {
+          return <VideoCard ele={e} key={i} cb= {this.toVideo}/>
+        }
+        else {
+          return <HiddenVid ele={e} key={i} cb= {this.toVideo}/>
+        }
+      })
+    }
+  }
+  isSearch = () => {
+    if(this.props.isSearch){
+      return (<this.searchList />)
+    }
+    else{
+      return(<this.historyList />)
     }
   }
   handleChange(event) {
     this.setState({value: event.target.value});
   }
   handleSubmit() {
-    this.doSearch(this.state.value,this.state.token)
+    this.props.history.push(`/search/${this.state.value}`)
+    this.doSearch(this.state.value, this.state.token)
+  }
+  updateHistory = (videoID) =>{
+    return new Promise((resolve, reject)=>{
+      let historyState = {...this.state.appdata};
+      let currentUser = this.state.appdata.userLists[0]; 
+      historyState.users[currentUser].history.unshift(videoID)
+      resolve(historyState)
+    })
+  }
+
+  toVideo = (e) => {
+    let link = e.target.getAttribute('value')
+    this.updateHistory(link)
+    .then((data)=>{
+      this.setState({
+        appdata: data
+      })
+      setItem('appdata', data);
+      this.props.history.push(`/video/${link}`)
+    })
+  }
+  
+  handleOnScroll = () => {
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+    const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+    const scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
+
+    if (scrolledToBottom) {
+      this.showMore()
+    }
   }
 
   render() {
@@ -119,15 +162,16 @@ class SearchApp extends Component {
       <form onSubmit={this.handleSubmit}>
         <label>
         <input type="text" value={this.state.value} onChange={this.handleChange} />
-          {/* <input type="text" value={this.state.value} onChange={this.handleSearch} /> */}
         </label>
         <input type="submit" value="Submit" />
       </form>
-        <this.searchList />
-        <button type="button" className="btn btn-dark justify-content-center" onClick={this.showMore}>Show More</button>
+        <this.isSearch />
       </div>
+      <br />
+      <br />
+      <Footer />
     </>)
   }
 }
 
-export default SearchApp;
+export default withRouter(SearchApp);

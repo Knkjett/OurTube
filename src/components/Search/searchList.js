@@ -1,26 +1,19 @@
 import React from 'react';
 import Moment from 'moment'
-import {Redirect} from 'react-router-dom';
 import './searchList.css';
-
-const toVideo = (e) => {
-  console.log(e);
-  return <Redirect to={`/video/${e}`} push/>
-}
 
 //IMG Resolutions are 90x120,180x320 360x480,
 const VideoCard = (props) => {
   const isHidden = props.hidden ? props.hidden : '';
   return (<>
-    <div className={'row videoPad ' + `${isHidden}`} onClick={()=>toVideo(props.ele.vidID)}>
-      <img className='col-lg-5 col-sm-12 thumbnail' src={props.ele.thumbnail} alt='thumbnail' />
-      <div className='col-lg-7 col-sm-12'>
-        <div className='row title'>{props.ele.title}</div>
-        <div className='row '>
-          <span className='channelInfo'>{props.ele.channelTitle} • {Moment(props.ele.publishedAt).fromNow()}</span>
+    <div className={`row listViewVideoPad ${isHidden}`} onClick={props.cb} value={props.ele.vidID}>
+      <img className='col-lg-5 col-xs-12 listViewThumbnail' src={props.ele.thumbnail} alt='thumbnail' value={props.ele.vidID}/>
+      <div className='col-lg-7 col-xs-12' value={props.ele.vidID}>
+        <div className='row listViewtitle' value={props.ele.vidID}>{props.ele.title}</div>
+        <div className='row' value={props.ele.vidID}>
+          <span className='listViewChannelInfo' value={props.ele.vidID}>{props.ele.channelTitle} • {Moment(props.ele.publishedAt).fromNow()}</span>
         </div>
-        <div className='row desc'>{props.ele.description}</div>
-        <div className='row'>{props.ele.vidID}</div>
+        <div className='row listViewDesc' value={props.ele.vidID}>{props.ele.description}</div>
       </div>
     </div>
   </>)

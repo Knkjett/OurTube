@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Footer from '../components/footer'
 
 class HomeApp extends Component {
   constructor(props) {
@@ -59,7 +60,11 @@ class HomeApp extends Component {
   }
 
   render() {
-    return (<h1>Home Page</h1>)
+    return (<>
+    <h1>Home Page</h1>
+    <Footer />
+    </>)
+    
   }
 }
 
