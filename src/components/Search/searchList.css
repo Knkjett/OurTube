@@ -1,0 +1,23 @@
+.title{
+    font-size: 20px;
+  }
+  .channelInfo{
+    color: darkgray;
+    font-size:14px;
+  }
+  .desc{
+    font-size: 14px;
+  }
+  .hiddenVid{
+    display: none !important;
+    visibility: hidden;
+  }
+  .thumbnail{
+    height: auto;
+    width: 100%;
+  }
+  .videoPad{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: gray 1px solid;
+  }

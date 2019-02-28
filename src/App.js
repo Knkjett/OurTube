@@ -4,6 +4,7 @@ import VideoApp from './routes/videoApp';
 import HomeApp from './routes/homeApp';
 import SearchApp from './routes/searchApp';
 import EditorApp from './routes/editorApp';
+import './clock.css';
 
 const Err = () => {
   return <h1>404</h1>
@@ -21,7 +22,7 @@ class App extends Component {
 
     return (
     <>
-      <nav className="navbar navbar-light bg-light justify-content-between">
+     <nav className="navbar navbar-light bg-light justify-content-between">
         <a className="navbar-brand">Navbar</a>
         <form className="form-inline">
           <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -32,7 +33,7 @@ class App extends Component {
         <Switch>
           <Route path='/' exact component={HomeApp} />
           <Route path='/editor' exact component={EditorApp} />
-          <Route path='/search' exact component={SearchApp} />
+          {/* <Route path='/search' exact component={SearchApp} /> */}
           <Route path='/video/:id' exact component={VideoApp} />
           <Route component={Err} />
         </Switch>
