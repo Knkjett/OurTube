@@ -5,6 +5,7 @@ const AddUser = props =>{
     const {clickAddBtn,
             addUserInputField,
             updateUserInputField,
+            onUserEnter,
     } = props;
 
     return (
@@ -15,6 +16,7 @@ const AddUser = props =>{
                         type='text' 
                         placeholder="User's name" 
                         onChange={e => updateUserInputField(e)}
+                        onKeyPress={onUserEnter}
                         value={addUserInputField}
                 />
                 <button onClick={clickAddBtn}>Add</button>

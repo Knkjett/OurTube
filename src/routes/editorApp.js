@@ -67,20 +67,25 @@ class EditorApp extends Component {
     if (this.state.users[userKey]){
       alert('This user already exists. Please choose another name.');
       this.setState({addUserInputField: ''});
-      
     } else {
       const newUserList = [newUser].concat([this.state.userList]);
       const newOrderedList = this.state.orderedList.concat([newUser]);
-      const newUserObj = {};
-      newUserObj[userKey] = {displayName: newUser, feeds: [], };
+      const newUsersObj = Object.assign({}, this.state.users);
+      newUsersObj[userKey] = {displayName: newUser, feeds: [], };
 
       this.setState({
         addUserInputField: '',
         userList: newUserList,
         orderedList: newOrderedList,
-        users: newUserObj,
+        users: newUsersObj,
       });
     }
+  }
+
+  onUserEnter = (e) =>{
+    if (e.key !== 'Enter') return;
+    if (!this.state.addUserInputField) return;
+    this.clickAddBtn();
   }
 
   clickCurrUser = (e) =>{
@@ -113,6 +118,7 @@ class EditorApp extends Component {
         <div className='userbox'>
           <AddUser 
             clickAddBtn={this.clickAddBtn}
+            onUserEnter={this.onUserEnter}
             addUserInputField={addUserInputField}
             updateUserInputField={this.updateUserInputField}
           />
