@@ -1,0 +1,17 @@
+.editor-wrapper {
+    display: flex;
+    max-width: 830px;
+    margin: auto;
+    justify-content: space-between;
+}
+input:focus {
+    outline: none;
+}
+.userbox {
+    width: 49%;
+    padding: 20px;
+}
+.feedbox {
+    width: 49%;
+    padding: 20px;
+}

@@ -1,0 +1,24 @@
+.current-user {
+    width: 100%;
+    background-color: #496DFF;
+    color: white;
+    padding: 5px 5px 5px 10px;
+    border: 1px solid lightgrey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13pt;
+}
+.user-dropdown {
+    border: 1px solid lightgrey;
+    border-top: none;
+}
+.selected {
+    font-size: 10pt;
+}
+.search {
+    width: 100%;
+}
+.hide {
+    display: none;
+}
