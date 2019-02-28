@@ -1,18 +1,36 @@
-.badge:hover {
-    cursor: pointer;
-}
-.badge {
-    display: flex;
-    align-items: center;
-    margin: 5px 0px 5px;
-    background-color: rgba(184, 184, 184, 0.76);
-    color: white;
-}
 .username {
     display: flex;
+    width: 100%;
     justify-content: space-between;
-    padding: 0px 10px 0px 10px;
+    align-items: center;
+    padding: 10px 15px;
 }
 .username:hover {
-    background-color: lightblue;
+    border: 1px solid grey;
 }
+.bg-blue {
+    background-color: rgb(54, 142, 243);
+}
+.font-white {
+    color: white;
+}
+.username:hover > .x-div{
+    display: block;
+}
+.x-div {
+    width: 16px;
+    height: 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(54, 142, 243);
+    text-align: center;
+    line-height: 1;
+    border: 1px solid white;
+}
+.x-div:hover {
+    cursor: pointer;
+}
+.hide {
+    display: none;
+}
+

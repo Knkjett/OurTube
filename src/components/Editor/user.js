@@ -2,12 +2,16 @@ import React from 'react';
 import './user.css';
 
 const User = props =>{
-    const {user, index, clickUser} = props;
+    const {user, index, clickUser, selectedIndex} = props;
+    const selectedClassL = (index===selectedIndex) ? 'selected' : 'selected hide';
+    const usernameClassL = (index===selectedIndex) ? 'username bg-blue font-white' : 'username';
+    const badgeClassL = (index===selectedIndex) ? 'x-div hide bg-blue font-white' : 'x-div hide';
 
     return (
-        <div index={index} className='username' onClick={clickUser}>
-            <span index={index}>{user}</span>
-            <span index={index} className='badge badge-pill'>x</span>
+        <div index={index} className={usernameClassL} onClick={clickUser}>
+            <div index={index}>{user}</div>
+            <div index={index} className={selectedClassL}><em>selected</em></div>
+            <div index={index} className={badgeClassL}>x</div>
         </div>
     );
 }

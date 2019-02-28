@@ -3,22 +3,30 @@ import './userlist.css';
 import User from '../../components/Editor/user';
 
 const UserList = props =>{
-    const {orderedList, userList, clickUser, clickCurrUser, showDropDown} = props;
-    const classList = showDropDown ? 'user-dropdown': 'user-dropdown hide';
+    const {
+        orderedList, 
+        currUser, 
+        clickUser, 
+        selectedIndex,
+    } = props;
 
     return (
         <div className='userList-wrapper'>
             <h5>User List</h5>
             <div>
-                <div className='current-user' onClick={clickCurrUser}>
-                    {userList[0]}
-                    <span className='selected'>selected &#x25BC;</span>
+                <div className='current-user'>
+                    {currUser}
+                    <span>&#x25BC;</span>
                 </div>
-                <div className={classList}>
-                    <input className='search' type='text' placeholder='Search...'/>
-                    {orderedList.map( (e,i) => {
-                        return <User user={e} key={i} index={i} clickUser={clickUser}/>
-                    })}
+                <div className='user-dropdown'>
+                    <div className='search-div'>
+                        <input className='search' type='text' placeholder='Search user...'/>
+                    </div>
+                    <div className='user-dlist'>
+                        {orderedList.map( (e,i) => {
+                            return <User user={e} key={i} index={i} clickUser={clickUser} selectedIndex={selectedIndex}/>
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

@@ -10,10 +10,11 @@ class EditorApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showDropDown: false,
       addUserInputField: '',
-      userList: ['Guest', 'Mo', 'Taq'],
-      orderedList: ['Guest', 'Mo', 'Taq'],
+      userSrchInputField: '',
+      userList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul'],
+      orderedList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul'],
+      selectedIndex: 0,
       users: {
         'guest': {
           displayName: 'GuesT',
@@ -49,16 +50,7 @@ class EditorApp extends Component {
       }
     }
   }
-
-  clickUser = (e) =>{
-    const index = parseInt(e.target.getAttribute('index'));
-    const userList = [...this.state.userList];
-    const mostRecentUser = [userList[index]];
-    const usersSet = new Set(mostRecentUser.concat(userList));
-    const userArr = Array.from(usersSet);
-    this.setState({userList: userArr});
-  }
-
+// Add User Logic ----------------->
   clickAddBtn = (e) =>{
     if (!this.state.addUserInputField) return;
     const newUser = this.state.addUserInputField;
@@ -72,12 +64,14 @@ class EditorApp extends Component {
       const newOrderedList = this.state.orderedList.concat([newUser]);
       const newUsersObj = Object.assign({}, this.state.users);
       newUsersObj[userKey] = {displayName: newUser, feeds: [], };
+      const lastIndex = this.state.orderedList.length;
 
       this.setState({
         addUserInputField: '',
         userList: newUserList,
         orderedList: newOrderedList,
         users: newUsersObj,
+        selectedIndex: lastIndex
       });
     }
   }
@@ -88,16 +82,30 @@ class EditorApp extends Component {
     this.clickAddBtn();
   }
 
-  clickCurrUser = (e) =>{
-    this.setState({showDropDown: !this.state.showDropDown});
-  }
-
   updateUserInputField = (e) =>{
     this.setState({addUserInputField: e.target.value});
   }
+// <--------------- Add User Logic
+
+// User Dropdown Logic ----------------->
+  clickUser = (e) =>{
+    const index = parseInt(e.target.getAttribute('index'));
+    const mostRecentUser = this.state.orderedList[index];
+    const usersSet = new Set([mostRecentUser].concat(this.state.userList));
+    const userArr = Array.from(usersSet);
+    this.setState({
+      userList: userArr, 
+      selectedIndex: index,
+      userSrchInputField: '',
+    });
+  }
+// <--------------- User Dropdown Logic
+
+
 
   componentDidMount = () =>{
     // localStorage.getItem('');
+    // ordered list becomes a copy of userlist;
     // const usersList = Object.keys(this.state.users);
     // const currUser = this.state.userList[0];
     // const currFeedObjs = this.state.users[currUser].feeds;
@@ -109,8 +117,8 @@ class EditorApp extends Component {
   render() {
     const {orderedList, 
             userList, 
-            showDropDown,
             addUserInputField,
+            selectedIndex,
           } = this.state;
 
     return (
@@ -125,10 +133,9 @@ class EditorApp extends Component {
           <br />          
           <UserList 
             clickUser={this.clickUser}
-            clickCurrUser={this.clickCurrUser}
-            userList={userList} 
+            currUser={userList[0]} 
             orderedList={orderedList}
-            showDropDown={showDropDown}
+            selectedIndex={selectedIndex}
           />
         </div>
         <div className='feedbox'>
