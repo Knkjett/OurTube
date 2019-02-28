@@ -1,0 +1,37 @@
+.listViewtitle{
+  font-size: 20px;
+}
+.listViewChannelInfo{
+  color: darkgray;
+  font-size:14px;
+}
+.listViewDesc{
+  font-size: 14px;
+}
+.hiddenVid{
+  display: none !important;
+  visibility: hidden;
+}
+.listViewThumbnail{
+  height: auto;
+  width: 100%;
+}
+.listViewVideoPad{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: gray 1px solid;
+}
+/* 
+.toTop {
+  border: 1px outset blue;
+  border-radius: 10px;
+  background-color: lightBlue;
+  height: 35px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.toTop:hover {
+ background-color: blue;
+  color: white;
+} */

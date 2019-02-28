@@ -21,7 +21,7 @@ class App extends Component {
 
     return (
     <>
-      <nav className="navbar navbar-light bg-light justify-content-between">
+     <nav className="navbar navbar-light bg-light justify-content-between">
         <a className="navbar-brand">Navbar</a>
         <form className="form-inline">
           <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -32,7 +32,8 @@ class App extends Component {
         <Switch>
           <Route path='/' exact component={HomeApp} />
           <Route path='/editor' exact component={EditorApp} />
-          <Route path='/search' exact component={SearchApp} />
+          <Route path='/search/:search' exact render={()=> <SearchApp isSearch={true} />}/>
+          <Route path='/history' exact exact render={()=> <SearchApp isSearch={false} />}/>
           <Route path='/video/:id' exact component={VideoApp} />
           <Route component={Err} />
         </Switch>

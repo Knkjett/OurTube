@@ -1,0 +1,29 @@
+div.scrollmenu {
+
+    border:gray solid 1px;
+    background-color: #333;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  
+  div.scrollmenu .card {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+  }
+  
+  div.scrollmenu .card:hover {
+    background-color: #777
+  }
+
+  .loadMore{
+    position: relative;
+    width: 20%; 
+    vertical-align: super;
+    height: 20%;
+    transform: rotate(90deg);
+  }
+
+  .loadMore:hover{box-shadow:0px 0px 4px #fff;}
