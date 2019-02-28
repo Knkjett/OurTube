@@ -3,4 +3,9 @@
 }
 .user-input {
     width: 100%;
+    padding-left: 10px;
+    letter-spacing: 1px;
+}
+.input-row {
+    font-size: 15pt;
 }

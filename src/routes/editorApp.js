@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'flexboxgrid/dist/flexboxgrid.min.css';
 import AddUser from '../components/Editor/adduser';
 import AddFeed from '../components/Editor/addfeed';
 import UserList from '../containers/Editor/userlist';
@@ -12,10 +10,13 @@ class EditorApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      recentUsers: ['guest', 'mo', 'taq'],
+      showDropDown: false,
+      addUserInputField: '',
+      userList: ['Guest', 'Mo', 'Taq'],
+      orderedList: ['Guest', 'Mo', 'Taq'],
       users: {
         'guest': {
-          displayName: 'Guest',
+          displayName: 'GuesT',
           feeds: [
             {
               feedname: 'cats',
@@ -49,23 +50,80 @@ class EditorApp extends Component {
     }
   }
 
-  componentDidMount() {
+  clickUser = (e) =>{
+    const index = parseInt(e.target.getAttribute('index'));
+    const userList = [...this.state.userList];
+    const mostRecentUser = [userList[index]];
+    const usersSet = new Set(mostRecentUser.concat(userList));
+    const userArr = Array.from(usersSet);
+    this.setState({userList: userArr});
+  }
+
+  clickAddBtn = (e) =>{
+    if (!this.state.addUserInputField) return;
+    const newUser = this.state.addUserInputField;
+    const userKey = newUser.toLowerCase();
+
+    if (this.state.users[userKey]){
+      alert('This user already exists. Please choose another name.');
+      this.setState({addUserInputField: ''});
+      
+    } else {
+      const newUserList = [newUser].concat([this.state.userList]);
+      const newOrderedList = this.state.orderedList.concat([newUser]);
+      const newUserObj = {};
+      newUserObj[userKey] = {displayName: newUser, feeds: [], };
+
+      this.setState({
+        addUserInputField: '',
+        userList: newUserList,
+        orderedList: newOrderedList,
+        users: newUserObj,
+      });
+    }
+  }
+
+  clickCurrUser = (e) =>{
+    this.setState({showDropDown: !this.state.showDropDown});
+  }
+
+  updateUserInputField = (e) =>{
+    this.setState({addUserInputField: e.target.value});
+  }
+
+  componentDidMount = () =>{
     // localStorage.getItem('');
-    const usersList = Object.keys(this.state.users);
-    const currUser = this.state.recentUsers[0];
-    const currFeedObjs = this.state.users[currUser].feeds;
-    const currentFeeds = currFeedObjs.map( feed => feed.feedname );
-    this.setState({});
+    // const usersList = Object.keys(this.state.users);
+    // const currUser = this.state.userList[0];
+    // const currFeedObjs = this.state.users[currUser].feeds;
+    // const currentFeeds = currFeedObjs.map( feed => feed.feedname );
+    // this.setState({});
     // localStorage.setItem('');
   }
 
   render() {
+    const {orderedList, 
+            userList, 
+            showDropDown,
+            addUserInputField,
+          } = this.state;
+
     return (
       <div className='editor-wrapper'>
         <div className='userbox'>
-          <AddUser />
+          <AddUser 
+            clickAddBtn={this.clickAddBtn}
+            addUserInputField={addUserInputField}
+            updateUserInputField={this.updateUserInputField}
+          />
           <br />          
-          <UserList />
+          <UserList 
+            clickUser={this.clickUser}
+            clickCurrUser={this.clickCurrUser}
+            userList={userList} 
+            orderedList={orderedList}
+            showDropDown={showDropDown}
+          />
         </div>
         <div className='feedbox'>
           <AddFeed />
