@@ -10,7 +10,7 @@ const getSearchResults = (search, token) => {
         videoDefinition: 'high',
         type: 'video',
         videoEmbeddable: 'true',
-        key: "AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU", // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg'
+        key: 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg',
         q: `${search}`,
         pageToken: `${token}`
       }
@@ -46,6 +46,7 @@ const getVideoInfo = (videoID) => {
     .then((res)=>{
       let info = res.data.items[0];
       let videoStats = {
+        'vidID': videoID,
         'title': info.snippet.title,
         'duration' : info.contentDetails.duration,
         'channelTitle': info.snippet.channelTitle,
