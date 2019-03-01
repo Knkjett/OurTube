@@ -11,6 +11,7 @@ const UserList = props =>{
         showMatchingUsers,
         searchStr,
         userSrchInputField,
+        clickX,
     } = props;
     const hasMatchingUser = orderedList.some(e =>e.toLowerCase().includes(searchStr));
 
@@ -31,7 +32,10 @@ const UserList = props =>{
                         ?
                             orderedList.map( (e,i) => {
                                 if (e.toLowerCase().includes(searchStr)){
-                                    return <User user={e} key={i} index={i} clickUser={clickUser} selectedIndex={selectedIndex}/>
+                                    return <User key={i} index={i} user={e} 
+                                        selectedIndex={selectedIndex} 
+                                        clickUser={clickUser}
+                                        clickX={clickX}/>
                                 }
                             })
                         :

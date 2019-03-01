@@ -131,6 +131,9 @@ class EditorApp extends Component {
     });
   }
 
+  clickX = (e) =>{
+
+  }
 // <--------------- User Dropdown Logic
 
 
@@ -173,6 +176,7 @@ class EditorApp extends Component {
             showMatchingUsers={this.showMatchingUsers}
             searchStr={userSrchStr}
             userSrchInputField={userSrchInputField}
+            clickX={this.clickX}
           />
         </div>
         <div className='feedbox'>
