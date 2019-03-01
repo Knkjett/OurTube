@@ -10,16 +10,14 @@
 }
 .user-dropdown {
     display: none;
+    border: 1px solid lightgrey;
+    border-top: none;
 }
 .current-user:hover + .user-dropdown{
     display: block;
 }
 .user-dropdown:hover {
     display: block;
-}
-.user-dropdown {
-    border: 1px solid lightgrey;
-    border-top: none;
 }
 .user-dlist {
     max-height: 350px;

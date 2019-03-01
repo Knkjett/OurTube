@@ -14,15 +14,40 @@ class EditorApp extends Component {
       userSrchInputField: '',
       userSrchStr: '',
 
-      userList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul','Tamarind'],
-      orderedList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul','Tamarind'],
-
+      userList: ['Guest', 'Mo', 'Taqistan'],
+      orderedList: ['Guest', 'Mo', 'Taqistan'],
       selectedIndex: 0,
+
+      feedSrchInputField: '',
+      feedSrchStr: '',
+
       users: {
-        mo: {},
-        tk: {},
-        q: {},
-        yun: {},
+        mo: {
+          displayName: 'Mo',
+          feeds: [
+            {feedname: 'momos', videos: [], lastUpdated: new Date()},
+            {feedname: 'how to make money', videos: [], lastUpdated: new Date()},
+            {feedname: 'new tech', videos: [], lastUpdated: new Date()},
+            {feedname: 'react lecture', videos: [], lastUpdated: new Date()},
+            {feedname: 'current news', videos: [], lastUpdated: new Date()},
+          ],
+        },
+        taqistan: {
+          displayName: 'Taqistan',
+          feeds: [
+            {feedname: 'best halal food', videos: [], lastUpdated: new Date()},
+            {feedname: 'cute cats', videos: [], lastUpdated: new Date()},
+            {feedname: 'cute kittens', videos: [], lastUpdated: new Date()},
+            {feedname: 'old school tech', videos: [], lastUpdated: new Date()},
+            {feedname: 'intersection co', videos: [], lastUpdated: new Date()},
+            {feedname: 'recursion', videos: [], lastUpdated: new Date()},
+            {feedname: 'lol', videos: [], lastUpdated: new Date()},
+            {feedname: 'best gyms in nyc', videos: [], lastUpdated: new Date()},
+            {feedname: 'science', videos: [], lastUpdated: new Date()},
+            {feedname: 'new break throughs in science', videos: [], lastUpdated: new Date()},
+            {feedname: 'how to be human', videos: [], lastUpdated: new Date()},
+          ],
+        },
         'guest': {
           displayName: 'GuesT',
           feeds: [
@@ -57,6 +82,7 @@ class EditorApp extends Component {
       }
     }
   }
+
 // Add User Logic ----------------->
   clickAddBtn = (e) =>{
     const newUser = this.state.addUserInputField;
@@ -175,7 +201,53 @@ class EditorApp extends Component {
   }
 // <--------------- User Dropdown Logic
 
+// Add Feed Logic --------------------->
 
+// <--------------------- Add Feed Logic
+
+// Feed Dropdown Logic --------------------->
+  showMatchingFeeds = (e) => {
+    if(e.target.value.length > 25){
+      alert('The feed name is too long!')
+      this.setState({
+        feedSrchInputField: '',
+        feedSrchStr: '',
+      });
+    } else {
+      this.setState({
+        feedSrchStr: e.target.value.toLowerCase().trim(),
+        feedSrchInputField: e.target.value,
+      });
+    }
+  }
+
+  clickFeed = (e) => {
+    if (e.target.innerText === 'x') return;
+    const index = parseInt(e.target.getAttribute('index'));
+    const userKey = this.state.userList[0].toLowerCase();
+    const oldFeedList = [...this.state.users[userKey].feeds];
+    const clickedFeed = oldFeedList[index];
+    oldFeedList.unshift(clickedFeed);
+    const newFeedSet = new Set(oldFeedList);
+    const newFeedList = Array.from(newFeedSet);
+    const newUsersObj = Object.assign({}, this.state.users);
+    newUsersObj[userKey].feeds = newFeedList;
+
+    this.setState({users: newUsersObj});
+  }
+
+  clickFeedX = (e) =>{
+    if (e.target.innerText !== 'x') return;
+    const index = parseInt( e.target.getAttribute('index') );
+    const userKey = this.state.userList[0].toLowerCase();
+    const feedList = this.state.users[userKey].feeds;
+    const newFeedList = feedList.slice(0,index).concat(feedList.slice(index+1));
+    const newUsersObj = Object.assign({}, this.state.users);
+    newUsersObj[userKey].feeds = newFeedList;
+
+    this.setState({users: newUsersObj});
+  }
+// <--------------------- Feed Dropdown Logic
 
   componentDidMount = () =>{
     // localStorage.getItem('');
@@ -195,7 +267,11 @@ class EditorApp extends Component {
             selectedIndex,
             userSrchStr,
             userSrchInputField,
+            users,
+            feedSrchInputField,
+            feedSrchStr,
           } = this.state;
+    const currFeeds = users[userList[0].toLowerCase()].feeds;
 
     return (
       <div className='editor-wrapper'>
@@ -221,7 +297,14 @@ class EditorApp extends Component {
         <div className='feedbox'>
           <AddFeed />
           <br />
-          <FeedList />
+          <FeedList
+            currFeeds={currFeeds}
+            showMatchingFeeds={this.showMatchingFeeds}
+            feedSrchInputField={feedSrchInputField}
+            searchStr={feedSrchStr}
+            clickFeed={this.clickFeed}
+            clickFeedX={this.clickFeedX}
+          />
         </div>
       </div>
     );
