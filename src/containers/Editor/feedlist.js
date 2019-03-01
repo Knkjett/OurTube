@@ -11,6 +11,11 @@ const FeedList = props =>{
         clickFeed,
         clickFeedX,
     } = props;
+    
+    if (currFeeds.length === 0){
+        return <div className='noFeeds'><h6>No feeds yet</h6></div>
+    }
+
     const hasMatchingFeed = currFeeds.some(f =>f.feedname.toLowerCase().includes(searchStr));
 
     return (
@@ -19,7 +24,7 @@ const FeedList = props =>{
             <div>
                 <div className='current-feed'>
                     {currFeeds[0].feedname}
-                    <span><em>selected</em></span>
+                    <span></span>
                 </div>
                 <div className='feed-dropdown'>
                     <div className='search-div'>

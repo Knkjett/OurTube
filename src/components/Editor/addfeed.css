@@ -3,3 +3,9 @@
     padding: 10px 15px;
     letter-spacing: 1px;
 }
+.feed-input::placeholder {
+    color: lightgrey;
+}
+.add-btn {
+    padding-right: 10px;
+}

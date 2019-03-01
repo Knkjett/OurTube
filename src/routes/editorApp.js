@@ -20,6 +20,7 @@ class EditorApp extends Component {
 
       feedSrchInputField: '',
       feedSrchStr: '',
+      addFeedInputField: '',
 
       users: {
         mo: {
@@ -163,7 +164,7 @@ class EditorApp extends Component {
     const index = parseInt( e.target.getAttribute('index') );
     const user = this.state.orderedList[index];
     const soonToBeSelectedUser = this.state.orderedList[index+1];
-    const text = `Are you sure you want to delete ${user}\nand all of ${user}'s feeds?`;
+    const text = `Are you sure you want to delete ${user}\n    and all of ${user}'s feeds?`;
 
     if (window.confirm(text)){
       // new ordered list
@@ -202,7 +203,51 @@ class EditorApp extends Component {
 // <--------------- User Dropdown Logic
 
 // Add Feed Logic --------------------->
+  clickAddFeedBtn = (e) => {
+    const newFeed = this.state.addFeedInputField;
+    if (!newFeed) return;
+    if (!this.state.userList[0]){
+      alert('No user selected yet.');
+      this.setState({addFeedInputField: ''});
+      return;
+    }
+    const userKey = this.state.userList[0].toLowerCase();
+    const oldFeedList = this.state.users[userKey].feeds;
 
+    if (oldFeedList.some(f => f.feedname.toLowerCase() === newFeed.trim().toLowerCase() )){
+      alert('This feed already exists!');
+      this.setState({addFeedInputField: ''});
+      return;
+    } else {
+      const newUsersObj = Object.assign({}, this.state.users);
+      const newFeedObj = {
+        feedname: newFeed,
+        videos: [],
+        lastUpdated: new Date(),
+      };
+      newUsersObj[userKey].feeds.unshift(newFeedObj);
+
+      this.setState({
+        users: newUsersObj,
+        addFeedInputField: '',
+      });
+    }
+  }
+
+  updateFeedInputField = (e) => {
+    if (e.target.value.length > 30){
+      alert('The feed name is too long!')
+      this.setState({addFeedInputField: ''});
+    } else {
+      this.setState({addFeedInputField: e.target.value});
+    }
+  }
+
+  onFeedEnter = (e) => {
+    if (e.key !== 'Enter') return;
+    if (!this.state.addFeedInputField) return;
+    this.clickAddFeedBtn();
+  }
 // <--------------------- Add Feed Logic
 
 // Feed Dropdown Logic --------------------->
@@ -268,10 +313,15 @@ class EditorApp extends Component {
             userSrchStr,
             userSrchInputField,
             users,
+
             feedSrchInputField,
             feedSrchStr,
+            addFeedInputField
           } = this.state;
-    const currFeeds = users[userList[0].toLowerCase()].feeds;
+
+    const currFeeds = userList[0] ?
+      users[userList[0].toLowerCase()].feeds
+      : [];
 
     return (
       <div className='editor-wrapper'>
@@ -285,7 +335,7 @@ class EditorApp extends Component {
           <br />          
           <UserList 
             clickUser={this.clickUser}
-            currUser={userList[0]} 
+            currUser={userList[0] || []} 
             orderedList={orderedList}
             selectedIndex={selectedIndex}
             showMatchingUsers={this.showMatchingUsers}
@@ -295,7 +345,12 @@ class EditorApp extends Component {
           />
         </div>
         <div className='feedbox'>
-          <AddFeed />
+          <AddFeed 
+            addFeedInputField={addFeedInputField}
+            updateFeedInputField={this.updateFeedInputField}
+            clickAddBtn={this.clickAddFeedBtn}
+            onFeedEnter={this.onFeedEnter}
+          />
           <br />
           <FeedList
             currFeeds={currFeeds}

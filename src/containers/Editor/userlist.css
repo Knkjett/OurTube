@@ -43,3 +43,7 @@
     padding: 10px 15px;
     text-align: center;
 }
+.noUsers {
+    text-align: center;
+    color: grey;
+}

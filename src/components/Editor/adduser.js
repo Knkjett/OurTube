@@ -19,7 +19,7 @@ const AddUser = props =>{
                         onKeyPress={onUserEnter}
                         value={addUserInputField}
                 />
-                <button onClick={clickAddBtn}>Add</button>
+                <button className='add-btn' onClick={clickAddBtn}>Add</button>
             </div>
         </form>
     );
