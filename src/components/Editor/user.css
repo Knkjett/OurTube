@@ -33,4 +33,6 @@
 .hide {
     display: none;
 }
-
+.selected {
+    font-style: italic;
+}

@@ -13,11 +13,16 @@ class EditorApp extends Component {
       addUserInputField: '',
       userSrchInputField: '',
       userSrchStr: '',
+
       userList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul','Tamarind'],
       orderedList: ['Guest', 'Mo', 'Taq', 'Abdel', 'TK', 'Kevin', 'Q', 'Mielyn', 'Yun', 'Osita', 'Van', 'Tarekul','Tamarind'],
 
       selectedIndex: 0,
       users: {
+        mo: {},
+        tk: {},
+        q: {},
+        yun: {},
         'guest': {
           displayName: 'GuesT',
           feeds: [
@@ -119,8 +124,10 @@ class EditorApp extends Component {
   }
 
   clickUser = (e) => {
+    if (e.target.innerText === 'x') return;
     const index = parseInt(e.target.getAttribute('index'));
     const mostRecentUser = this.state.orderedList[index];
+    if (mostRecentUser === this.state.userList[0]) return;
     const usersSet = new Set([mostRecentUser].concat(this.state.userList));
     const userArr = Array.from(usersSet);
     this.setState({
@@ -128,11 +135,50 @@ class EditorApp extends Component {
       selectedIndex: index,
       userSrchInputField: '',
       userSrchStr: '',
+    }, ()=>{
+      // console.log(this.state.userList);
     });
   }
 
   clickX = (e) =>{
+    const index = parseInt( e.target.getAttribute('index') );
+    const user = this.state.orderedList[index];
+    const soonToBeSelectedUser = this.state.orderedList[index+1];
+    const text = `Are you sure you want to delete ${user}\nand all of ${user}'s feeds?`;
 
+    if (window.confirm(text)){
+      // new ordered list
+      const orderedList = this.state.orderedList;
+      const newOrderedList = orderedList.slice(0,index).concat(orderedList.slice(index+1));
+      // new user list with updated current user
+      let selectedIndex = this.state.selectedIndex;
+      const newUserList0 = this.state.userList.filter(e => e !== user);
+      let newUserList = newUserList0;
+      if (user === this.state.userList[0]){ 
+        // if user to be removed is the same as selected user, update most current on userList
+        newUserList0.unshift(soonToBeSelectedUser);
+        const newSet = new Set(newUserList0);
+        newUserList = Array.from(newSet);
+      }
+      if (index < selectedIndex) selectedIndex--;
+      
+      // delete user key from this.state.users
+      const newUsersObj = Object.assign({}, this.state.users);
+      const userKey = user.toLowerCase();
+      delete newUsersObj[userKey];   
+
+      this.setState({
+        userList: newUserList,
+        orderedList: newOrderedList,
+        users: newUsersObj,
+        selectedIndex,
+      }, ()=>{
+        alert(`${user}'s account permanently deleted.`)
+      })
+    } else {
+      console.log('not ready to delete yet')
+      return;
+    }
   }
 // <--------------- User Dropdown Logic
 
