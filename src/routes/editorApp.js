@@ -64,14 +64,9 @@ class EditorApp extends Component {
 
     if (!newUser) return;
 
-    if (newUser.length >30){
-      alert('The user name is too long!');
-      this.setState({addUserInputField: ''});
-
-    } else if (this.state.users[userKey]){
+    if (this.state.users[userKey]){
       alert('This user already exists. Please choose another name.');
       this.setState({addUserInputField: ''});
-
     } else {
       const newUserList = [newUser].concat([this.state.userList]);
       const newOrderedList = this.state.orderedList.concat([newUser]);
@@ -92,18 +87,16 @@ class EditorApp extends Component {
   onUserEnter = (e) =>{
     if (e.key !== 'Enter') return;
     if (!this.state.addUserInputField) return;
-    if (this.state.addUserInputField.length > 25){
-      alert('The user name is too long!')
-      this.setState({
-        addUserInputField: '',
-      });
-    } else {
-      this.clickAddBtn();
-    }
+    this.clickAddBtn();
   }
 
   updateUserInputField = (e) =>{
-    this.setState({addUserInputField: e.target.value});
+    if (e.target.value.length > 25){
+      alert('The user name is too long!')
+      this.setState({addUserInputField: ''});
+    } else {
+      this.setState({addUserInputField: e.target.value});
+    }
   }
 // <--------------- Add User Logic
 
