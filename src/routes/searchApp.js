@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getSearchResults, getItem, setItem } from '../services/service'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { VideoCard, HiddenVid } from '../components/Search/searchList'
 import Footer from '../components/footer'
 
@@ -22,13 +22,11 @@ class SearchApp extends Component {
         }
       }
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
   doSearch = (searchQuery, token) => {
-    let userState = {...this.state.appdata};
+    let userState = { ...this.state.appdata };
     let mySearch = {};
-    getSearchResults(searchQuery,token)
+    getSearchResults(searchQuery, token)
       .then((data) => {
         mySearch = {
           query: searchQuery,
@@ -39,6 +37,7 @@ class SearchApp extends Component {
           shownResults: 8,
           appdata: userState
         })
+        setItem('appdata',this.state.appdata);
       })
   }
 
@@ -55,28 +54,36 @@ class SearchApp extends Component {
           })
         }
       })
-    if(this.props.isSearch){
-      const {search} = this.props.match.params;
-      this.setState({
-        value: search
+      .then(() => {
+        if (this.props.isSearch) {
+          const { search } = this.props.match.params;
+          this.setState({
+            value: search
+          })
+          this.doSearch(search, '')
+        }
       })
-      this.doSearch(search,'')
-    }
   }
-  
 
   showMore = () => {
     let currentQuery = this.state.appdata.users[this.state.appdata.userLists[0]].queries[0]
     let val = this.state.shownResults + 8
-    if(val > 24){
-      window.scrollTo(0, 0);
-      this.doSearch(currentQuery.query, currentQuery.results[0].token)
+    if (this.props.isSearch) {
+      if (val > 24) {
+        window.scrollTo(0, 0);
+        this.doSearch(currentQuery.query, currentQuery.results[0].token)
+      }
+      else {
+        this.setState({
+          shownResults: val,
+        })
+      }
     }
-    else{
-    this.setState({
-      shownResults: val,
-    })
-  }
+    else {
+      this.setState({
+        shownResults: val,
+      })
+    }
   }
 
   searchList = () => { //Function gets called in the render which will render the return of the map
@@ -86,65 +93,64 @@ class SearchApp extends Component {
     else {
       return this.state.appdata.users[currentUser].queries[0].results.map((e, i) => {
         if (i < this.state.shownResults) {
-          return <VideoCard ele={e} key={i} cb= {this.toVideo}/>
+          return <VideoCard ele={e} key={i} cb={this.toVideo} />
         }
         else {
-          return <HiddenVid ele={e} key={i} cb= {this.toVideo}/>
+          return <HiddenVid ele={e} key={i} cb={this.toVideo} />
         }
       })
     }
   }
-  historyList = () =>{
-    let currentUser = this.state.appdata.userLists[0]; 
-    if (!this.state.appdata.users[currentUser].queries[0])
-      return (<></>)
+  historyList = () => {
+    const { username } = this.props.match.params;
+    if (!this.state.appdata.users[username] || !this.state.appdata.users[username].history[0])
+      return (<>
+      <h2>No Video History. Go watch something {username}!</h2>
+      </>)
     else {
-      return this.state.appdata.users[currentUser].history.map((e, i) => {
+      return this.state.appdata.users[username].history.map((e, i) => {
         if (i < this.state.shownResults) {
-          return <VideoCard ele={e} key={i} cb= {this.toVideo}/>
+          return <VideoCard ele={e} key={i} cb={this.toVideo} />
         }
         else {
-          return <HiddenVid ele={e} key={i} cb= {this.toVideo}/>
+          return <HiddenVid ele={e} key={i} cb={this.toVideo} />
         }
       })
     }
   }
   isSearch = () => {
-    if(this.props.isSearch){
+    if (this.props.isSearch) {
       return (<this.searchList />)
     }
-    else{
-      return(<this.historyList />)
+    else {
+      return (<this.historyList />)
     }
   }
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
   }
-  handleSubmit() {
+  handleSubmit = () => {
     this.props.history.push(`/search/${this.state.value}`)
     this.doSearch(this.state.value, this.state.token)
-  }
-  updateHistory = (videoID) =>{
-    return new Promise((resolve, reject)=>{
-      let historyState = {...this.state.appdata};
-      let currentUser = this.state.appdata.userLists[0]; 
-      historyState.users[currentUser].history.unshift(videoID)
-      resolve(historyState)
-    })
   }
 
   toVideo = (e) => {
     let link = e.target.getAttribute('value')
-    this.updateHistory(link)
-    .then((data)=>{
-      this.setState({
-        appdata: data
-      })
-      setItem('appdata', data);
-      this.props.history.push(`/video/${link}`)
-    })
+    // getVideoInfo(link)
+    // .then((vidData)=>{
+    //   console.log(vidData)
+    //   this.updateHistory(vidData)
+    //   .then((data) => {
+    //     this.setState({
+    //       appdata: data
+    //     })
+    //     setItem('appdata', data);
+    this.props.history.push(`/video/${link}`)
+    // })
+    // })
+
   }
-  
+
   handleOnScroll = () => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
     const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
@@ -158,13 +164,13 @@ class SearchApp extends Component {
 
   render() {
     return (<>
-      <div className='container'>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className='container' onClick = {this.props.close}>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
         <this.isSearch />
       </div>
       <br />

@@ -3,9 +3,15 @@
 }
 .user-input {
     width: 100%;
-    padding-left: 10px;
     letter-spacing: 1px;
+    padding: 10px 15px;
+}
+.user-input::placeholder {
+    color: lightgrey;
 }
 .input-row {
     font-size: 15pt;
+}
+.add-btn {
+    padding-right: 10px;
 }

@@ -1,7 +1,33 @@
 .current-feed {
     width: 100%;
+    padding: 10px 15px;
+    border: 2px solid grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13pt;
+    font-weight: 800;
 }
 .feed-dropdown {
     border: 1px solid lightgrey;
     border-top: none;
+}
+.feed-dlist {
+    max-height: 350px;
+    overflow: scroll;
+    color: grey;
+}
+.no-feed-match {
+    padding: 10px 15px;
+    text-align: center;
+}
+.noFeeds {
+    text-align: center;
+    color: grey;
+}
+.explore-feed {
+    cursor: pointer;
+}
+.explore-feed:hover {
+    text-decoration: none;
 }

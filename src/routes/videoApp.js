@@ -7,6 +7,7 @@ import Suggestions from '../components/Video/suggesstion';
 import Comments from '../components/Video/comments';
 import '../components/Video/suggestion.css';
 
+
 class VideoApp extends Component {
 
   constructor(props) {
