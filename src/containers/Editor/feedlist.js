@@ -1,6 +1,7 @@
 import React from 'react';
 import './feedlist.css';
 import Feed from '../../components/Editor/feed';
+import {Link} from 'react-router-dom';
 
 const FeedList = props =>{
     const {
@@ -17,7 +18,6 @@ const FeedList = props =>{
     }
 
     const hasMatchingFeed = currFeeds.some(f =>f.feedname.toLowerCase().includes(searchStr));
-    const srchlink = `http://localhost:3000/?#/search/${currFeeds[0].feedname}`;
     
     return (
         <div className='feedList-wrapper'>
@@ -25,11 +25,11 @@ const FeedList = props =>{
             <div>
                 <div className='current-feed'>
                     {currFeeds[0].feedname}
-                    <a className='explore-feed' 
-                        title='Take me to the video page!'
-                        href={srchlink}>
+                    <Link to={'/search/'+currFeeds[0].feedname} className='explore-feed'>
+                        <span title='Take me to the video page!'>
                             Explore &#x25B6;
-                    </a>
+                        </span>
+                    </Link>
                 </div>
                 <div className='feed-dropdown'>
                     <div className='search-div'>
