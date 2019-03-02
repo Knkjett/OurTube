@@ -1,9 +1,24 @@
-div.scrollmenu {
 
+.PageWrapper {
+  display: flex;
+  padding:10%;
+  padding-top: 2%;
+  padding-bottom: 0%;
+  background:#ffffff;
+}
+
+.suggestionsWrapper{
+  display:inline-block;
+  padding-top: 0%;
+  padding: 5%;
+}
+
+div.scrollmenu {
     border:gray solid 1px;
     background-color: #333;
     overflow: auto;
     white-space: nowrap;
+    /* position: relative; */
   }
   
   div.scrollmenu .card {
@@ -20,6 +35,7 @@ div.scrollmenu {
 
   .loadMore{
     position: relative;
+    right: -92px;
     width: 20%; 
     vertical-align: super;
     height: 20%;
@@ -27,3 +43,4 @@ div.scrollmenu {
   }
 
   .loadMore:hover{box-shadow:0px 0px 4px #fff;}
+  
