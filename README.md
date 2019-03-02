@@ -1,4 +1,4 @@
-![BingeWatch Banner]()
+![BingeWatch Banner](https://github.com/Knkjett/OurTube/blob/master/assets/Binge%20Watch%20Logo.png?raw=true)
 # Binge Watch | React App
 - Week long Team Project to create React App utilizing YouTube API for search. Mimic Youtube features to display content such as Home/Feed view, Search feature, Video Page and additional extra features. 
 - NPMPackages used: Axios, Bootstrap, Flexbox Grid, Moment, React, React-dom, React-router-dom, Reactstrap
@@ -64,5 +64,5 @@
 - Team member [Kevin](https://github.com/Knkjett)
 - Team member [Qiuyun](https://github.com/qiuyunchen)
 
-![BingeWatch Logo]()
+![BingeWatch Logo](https://github.com/Knkjett/OurTube/blob/master/assets/Binge%20Watch%20Logo.png?raw=true)
 
