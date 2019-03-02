@@ -1,0 +1,49 @@
+.current-user {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13pt;
+    font-weight: 800;
+}
+.user-dropdown {
+    display: none;
+    border: 1px solid lightgrey;
+    border-top: none;
+}
+.current-user:hover + .user-dropdown{
+    display: block;
+}
+.user-dropdown:hover {
+    display: block;
+}
+.user-dlist {
+    max-height: 350px;
+    overflow: scroll;
+    color: grey;
+}
+.search-div {
+    width: 100%;
+    padding: 1px;
+    border-bottom: 1px solid lightgrey;
+}
+.search {
+    width: 100%;
+    padding: 10px 15px;
+    color: grey;
+}
+.search::placeholder {
+    font-size: 13pt;
+    letter-spacing: 1.5px;
+    color: lightgray;
+}
+.no-srch-match {
+    padding: 10px 15px;
+    text-align: center;
+}
+.noUsers {
+    text-align: center;
+    color: grey;
+}
