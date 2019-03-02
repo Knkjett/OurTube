@@ -5,7 +5,8 @@ import { Container, Row, Col, Button} from 'reactstrap';
 import VideoPlayer from '../components/Video/videoplayer';
 import Suggestions from '../components/Video/suggesstion';
 import Comments from '../components/Video/comments';
-import '../../src/components/Video/suggestion.css'
+import '../components/Video/suggesstion'
+
 
 
 
