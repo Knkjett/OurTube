@@ -1,15 +1,21 @@
+
 .wrapper {
   max-height: 600px;  
   padding-top:5px;
-  border-style:solid;
+  /* border-style:solid; */
   border-color:#336699;
   border-width:1px;
   padding-left:3px;
   padding-bottom:10px;
   margin-bottom: 10px;
   text-overflow: ellipsis;
-  /* white-space: nowrap; */
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: auto; 
+}
 
-  
+.toWatchLaterr {
+  width: 200px;
+  height: 120px;
+  padding-right: 5px;
+  padding-bottom: 5px;
 }

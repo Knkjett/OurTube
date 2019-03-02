@@ -16,7 +16,7 @@ const getSearchResults = (search, token) => {
         videoDefinition: 'high',
         type: 'video',
         videoEmbeddable: 'true',
-        key: 'AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE', //'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg',
+        key: 'AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE', //'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU',
         q: `${search}`,
         pageToken: `${token}`
       }
@@ -49,11 +49,12 @@ const getVideoInfo = (videoID) => {
         id: `${videoID}`,
         type: 'list',
         part: 'snippet,contentDetails,statistics',
-        key: "AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE" , // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg'
+        key: "AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE" , // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU'
       }
     })
     .then((res)=>{
       let info = res.data.items[0];
+      let tags = info.snippet.tags.map(e => {return e})
       let titleParsed = decodeEntities(info.snippet.title)
       let cTitleParsed = decodeEntities(info.snippet.channelTitle)
       let descParsed = decodeEntities(info.snippet.description)
@@ -65,8 +66,8 @@ const getVideoInfo = (videoID) => {
         'description' : descParsed,
         'viewCount': info.statistics.viewCount,
         'publishedAt' : info.snippet.publishedAt,
-        'thumbnail': info.snippet.thumbnails.maxres.url,
-        'tags': `${info.snippet.tags[0]} ${info.snippet.tags[1]}`,
+        'thumbnail': info.snippet.thumbnails.standard.url,
+        'tags': tags,
       };
       return videoStats;
     })
