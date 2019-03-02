@@ -25,3 +25,9 @@
     text-align: center;
     color: grey;
 }
+.explore-feed {
+    cursor: pointer;
+}
+.explore-feed:hover {
+    text-decoration: none;
+}

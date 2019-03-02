@@ -17,14 +17,19 @@ const FeedList = props =>{
     }
 
     const hasMatchingFeed = currFeeds.some(f =>f.feedname.toLowerCase().includes(searchStr));
-
+    const srchlink = `http://localhost:3000/?#/search/${currFeeds[0].feedname}`;
+    
     return (
         <div className='feedList-wrapper'>
             <h5>Explore Feed List</h5>
             <div>
                 <div className='current-feed'>
                     {currFeeds[0].feedname}
-                    <span></span>
+                    <a className='explore-feed' 
+                        title='Take me to the video page!'
+                        href={srchlink}>
+                            Explore &#x25B6;
+                    </a>
                 </div>
                 <div className='feed-dropdown'>
                     <div className='search-div'>

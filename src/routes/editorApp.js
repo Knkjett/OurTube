@@ -30,6 +30,7 @@ class EditorApp extends Component {
             {feedname: 'how to make money', videos: [], lastUpdated: new Date()},
             {feedname: 'new tech', videos: [], lastUpdated: new Date()},
             {feedname: 'react lecture', videos: [], lastUpdated: new Date()},
+            {feedname: 'funny tech interviews', videos: [], lastUpdated: new Date()},
             {feedname: 'current news', videos: [], lastUpdated: new Date()},
           ],
         },
