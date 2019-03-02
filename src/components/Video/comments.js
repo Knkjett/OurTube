@@ -6,28 +6,34 @@ import "./comments.css"
 class Comments extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this.toggle2 = this.toggle2.bind(this);
 
     this.state = { 
       collapse: true,
-      collapse2: true,
+      collapse2: false,
+      collapse3: false,
      };
   }
 
-  toggle() {
+  toggle= () => {
     this.setState({ 
       collapse: !this.state.collapse,
     });
   }
 
-  toggle2() {
+  toggle2 = () => {
     this.setState({ 
       collapse2: !this.state.collapse2,
     });
   }
 
+  toggle3= () => {
+    this.setState({ 
+      collapse3: !this.state.collapse3,
+    });
+  }
+
   render() {
+    console.log("to watch later: ",this.props.toWatchLaterList)
     return ( <>
       <div className="wrapper">
     
@@ -41,7 +47,7 @@ class Comments extends Component {
         </Collapse>
       </div>
       <div>
-      <Button color="secondary" size="lg" onClick={this.toggle2} style={{ marginBottom: '0rem' }} block> Tags </Button>
+      <Button color="secondary" size="lg" onClick={this.toggle2} style={{ marginBottom: '1rem' }} block> Tags </Button>
       <Collapse isOpen={this.state.collapse2}>
         <Card>
           <CardBody>
@@ -50,6 +56,21 @@ class Comments extends Component {
         </Card>
       </Collapse>
     </div>
+    <div>
+      <Button color="secondary" size="lg" onClick={this.toggle3} style={{ marginBottom: '1rem' }} block> Watch Later </Button>
+      <Collapse isOpen={this.state.collapse3}>
+        <Card>
+          <CardBody >
+            
+            {this.props.toWatchLaterList.map((e,i) => { return <img className="toWatchLaterr" imgIdx={i} src={`${e.thumbnail}`} />})}
+
+            {/* <img className="toWatchLaterr" src={`${this.props.toWatchLaterList}`} /> */}
+        
+          </CardBody>
+        </Card>
+      </Collapse>
+    </div>
+    
     </>
     );
   }

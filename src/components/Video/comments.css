@@ -12,3 +12,10 @@
   overflow-y: auto;
   overflow-x: auto; 
 }
+
+.toWatchLaterr {
+  width: 200px;
+  height: 120px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
