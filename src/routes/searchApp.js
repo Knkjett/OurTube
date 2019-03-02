@@ -22,8 +22,6 @@ class SearchApp extends Component {
         }
       }
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
   doSearch = (searchQuery, token) => {
     let userState = { ...this.state.appdata };
@@ -104,11 +102,13 @@ class SearchApp extends Component {
     }
   }
   historyList = () => {
-    let currentUser = this.state.appdata.userLists[0];
-    if (!this.state.appdata.users[currentUser].queries[0])
-      return (<></>)
+    const { username } = this.props.match.params;
+    if (!this.state.appdata.users[username] || !this.state.appdata.users[username].history[0])
+      return (<>
+      <h2>No Video History. Go watch something {username}!</h2>
+      </>)
     else {
-      return this.state.appdata.users[currentUser].history.map((e, i) => {
+      return this.state.appdata.users[username].history.map((e, i) => {
         if (i < this.state.shownResults) {
           return <VideoCard ele={e} key={i} cb={this.toVideo} />
         }
@@ -126,10 +126,10 @@ class SearchApp extends Component {
       return (<this.historyList />)
     }
   }
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({ value: event.target.value });
   }
-  handleSubmit() {
+  handleSubmit = () => {
     this.props.history.push(`/search/${this.state.value}`)
     this.doSearch(this.state.value, this.state.token)
   }
@@ -164,7 +164,7 @@ class SearchApp extends Component {
 
   render() {
     return (<>
-      <div className='container'>
+      <div className='container' onClick = {this.props.close}>
         <form onSubmit={this.handleSubmit}>
           <label>
             <input type="text" value={this.state.value} onChange={this.handleChange} />
