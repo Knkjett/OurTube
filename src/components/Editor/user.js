@@ -7,6 +7,7 @@ const User = props =>{
     const selectedClassL = (index===selectedIndex) ? 'selected' : 'selected hide';
     const usernameClassL = (index===selectedIndex) ? 'username bg-blue font-white' : 'username';
     const badgeClassL = (index===selectedIndex) ? 'x-div hide bg-blue font-white' : 'x-div hide';
+    
 
     return (
         <div index={index} className={usernameClassL} onClick={clickUser}>

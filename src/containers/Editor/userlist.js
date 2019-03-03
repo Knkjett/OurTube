@@ -14,10 +14,11 @@ const UserList = props =>{
         clickX,
     } = props;
 
-    const hasMatchingUser = orderedList.some(e =>e.toLowerCase().includes(searchStr));
+    
     if (orderedList.length === 0){
         return <div className='noUsers'><h6>No users at the moment</h6></div>
     }
+    const hasMatchingUser = orderedList.some(e =>e.toLowerCase().includes(searchStr));
 
     return (
         <div className='userList-wrapper'>
