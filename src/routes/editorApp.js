@@ -4,6 +4,9 @@ import AddFeed from '../components/Editor/addfeed';
 import UserList from '../containers/Editor/userlist';
 import FeedList from '../containers/Editor/feedlist';
 import './editorApp.css';
+import Footer from '../components/footer';
+import { setItem, getItem } from '../services/service';
+
 
 
 class EditorApp extends Component {
@@ -13,124 +16,104 @@ class EditorApp extends Component {
       addUserInputField: '',
       userSrchInputField: '',
       userSrchStr: '',
-
-      userList: ['Guest', 'Mo', 'Taqistan'],
-      orderedList: ['Guest', 'Mo', 'Taqistan'],
       selectedIndex: 0,
-
       feedSrchInputField: '',
       feedSrchStr: '',
       addFeedInputField: '',
+      orderedList: ['guest',],
 
-      users: {
-        mo: {
-          displayName: 'Mo',
-          feeds: [
-            {feedname: 'momos', videos: [], lastUpdated: new Date()},
-            {feedname: 'how to make money', videos: [], lastUpdated: new Date()},
-            {feedname: 'new tech', videos: [], lastUpdated: new Date()},
-            {feedname: 'react lecture', videos: [], lastUpdated: new Date()},
-            {feedname: 'funny tech interviews', videos: [], lastUpdated: new Date()},
-            {feedname: 'current news', videos: [], lastUpdated: new Date()},
-          ],
-        },
-        taqistan: {
-          displayName: 'Taqistan',
-          feeds: [
-            {feedname: 'best halal food', videos: [], lastUpdated: new Date()},
-            {feedname: 'cute cats', videos: [], lastUpdated: new Date()},
-            {feedname: 'cute kittens', videos: [], lastUpdated: new Date()},
-            {feedname: 'old school tech', videos: [], lastUpdated: new Date()},
-            {feedname: 'intersection co', videos: [], lastUpdated: new Date()},
-            {feedname: 'recursion', videos: [], lastUpdated: new Date()},
-            {feedname: 'lol', videos: [], lastUpdated: new Date()},
-            {feedname: 'best gyms in nyc', videos: [], lastUpdated: new Date()},
-            {feedname: 'science', videos: [], lastUpdated: new Date()},
-            {feedname: 'new break throughs in science', videos: [], lastUpdated: new Date()},
-            {feedname: 'how to be human', videos: [], lastUpdated: new Date()},
-          ],
-        },
-        'guest': {
-          displayName: 'GuesT',
-          feeds: [
-            {
-              feedname: 'cats',
-              videos: [
-                {
-                  vidID: 'hY7m5jjJ9mM',  // <-- alphanumerical video id
-                  title: 'CATS will make you LAUGH YOUR HEAD OFF - Funny CAT compilation',
-                  duration: '', // <--- length of the video in hh:mm:ss
-                  channelTitle: 'Tiger FunnyWorks', // <-- channel video originated from 
-                  description: 'Cats are amazing creatures because they make us laugh all the time! Watching funny cats is the hardest try not to laugh challenge! Just look how all these cats ...', // <--- description of the video
-                  viewCount: '',  //<--- how many times it was watched
-                  publishedAt: '2017-05-31T09:30:02.000Z', // <--- date video was put on youtube}],
-                  thumbnail: 'https://i.ytimg.com/vi/hY7m5jjJ9mM/maxresdefault.jpg'
-                },
-                {
-                  vidID: 'Rmx1JGTX1yw',  // <-- alphanumerical video id
-                  title: 'Funniest CATS EVER - Die LAUGING NOW!',
-                  duration: '', // <--- length of the video in hh:mm:ss
-                  channelTitle: 'Tiger FunnyWorks', // <-- channel video originated from 
-                  description: 'Cats are the best pets and animals! Cats and kittens are so funny, they make us laugh and happy! They never fail to amuse us! This is the most impossible TRY ...', // <--- description of the video
-                  viewCount: '',  //<--- how many times it was watched
-                  publishedAt: '2018-07-26T11:00:05.000Z', // <--- date video was put on youtube}],
-                  thumbnail: 'https://i.ytimg.com/vi/Rmx1JGTX1yw/maxresdefault.jpg'
-                },
-              ],
-              lastUpdated: new Date(),
-            }
-          ],
+      appdata: {
+        userLists: ['guest',],
+        users: {
+          'guest': {
+            toWatchLater: [],
+            feeds: [
+              {
+                feedname: 'cats',
+                isLoading: false,
+                isCollapsed: true,
+                display: 4,
+                videos: [
+                  {
+                    vidID: 'hY7m5jjJ9mM',
+                    title: 'CATS will make you LAUGH YOUR HEAD OFF - Funny CAT compilation',
+                    duration: '',
+                    channelTitle: 'Tiger FunnyWorks',
+                    description: 'Cats are amazing creatures because they make us laugh all the time! Watching funny cats is the hardest try not to laugh challenge! Just look how all these cats ...', // <--- description of the video
+                    viewCount: '',
+                    publishedAt: '2017-05-31T09:30:02.000Z',
+                    thumbnail: 'https://i.ytimg.com/vi/hY7m5jjJ9mM/maxresdefault.jpg'
+                  },
+                  {
+                    vidID: 'Rmx1JGTX1yw',
+                    title: 'Funniest CATS EVER - Die LAUGING NOW!',
+                    duration: '',
+                    channelTitle: 'Tiger FunnyWorks',
+                    description: 'Cats are the best pets and animals! Cats and kittens are so funny, they make us laugh and happy! They never fail to amuse us! This is the most impossible TRY ...', // <--- description of the video
+                    viewCount: '100',
+                    publishedAt: '2018-07-26T11:00:05.000Z',
+                    thumbnail: 'https://i.ytimg.com/vi/Rmx1JGTX1yw/maxresdefault.jpg'
+                  },
+                ],
+                updated: (Date.now() - 3600001),
+              }],
+            history: [],
+            queries: []
+          }
         }
       }
+
     }
   }
 
-// Add User Logic ----------------->
-  clickAddBtn = (e) =>{
+
+  // Add User Logic ----------------->
+  clickAddBtn = (e) => {
     const newUser = this.state.addUserInputField;
     const userKey = newUser.toLowerCase();
 
     if (!newUser) return;
 
-    if (this.state.users[userKey]){
+    if (this.state.appdata.users[userKey]) {
       alert('This user already exists. Please choose another name.');
-      this.setState({addUserInputField: ''});
+      this.setState({ addUserInputField: '' });
     } else {
-      const newUserList = [newUser].concat([this.state.userList]);
-      const newOrderedList = this.state.orderedList.concat([newUser]);
-      const newUsersObj = Object.assign({}, this.state.users);
-      newUsersObj[userKey] = {displayName: newUser, feeds: [], };
+      const newUserList = [newUser].concat([...this.state.appdata.userLists]);
+      const newOrderedList = [...this.state.orderedList].concat([newUser]);
+      const newUsersObj = Object.assign({}, this.state.appdata.users);
+      newUsersObj[userKey] = { displayName: newUser, feeds: [], history: [],queries: [],toWatchLater: []};
       const lastIndex = this.state.orderedList.length;
 
       this.setState({
         addUserInputField: '',
-        userList: newUserList,
         orderedList: newOrderedList,
-        users: newUsersObj,
-        selectedIndex: lastIndex
+        selectedIndex: lastIndex,
+        appdata: { userLists: newUserList, users: newUsersObj },
+      }, () => {
+        setItem('appdata', this.state.appdata)
       });
     }
   }
 
-  onUserEnter = (e) =>{
+  onUserEnter = (e) => {
     if (e.key !== 'Enter') return;
     if (!this.state.addUserInputField) return;
     this.clickAddBtn();
   }
 
-  updateUserInputField = (e) =>{
-    if (e.target.value.length > 25){
+  updateUserInputField = (e) => {
+    if (e.target.value.length > 25) {
       alert('The user name is too long!')
-      this.setState({addUserInputField: ''});
+      this.setState({ addUserInputField: '' });
     } else {
-      this.setState({addUserInputField: e.target.value});
+      this.setState({ addUserInputField: e.target.value });
     }
   }
-// <--------------- Add User Logic
+  // <--------------- Add User Logic
 
-// User Dropdown Logic ----------------->
+  // User Dropdown Logic ----------------->
   showMatchingUsers = (e) => {
-    if(e.target.value.length > 25){
+    if (e.target.value.length > 25) {
       alert('The username is too long!')
       this.setState({
         userSrchInputField: '',
@@ -148,79 +131,81 @@ class EditorApp extends Component {
     if (e.target.innerText === 'x') return;
     const index = parseInt(e.target.getAttribute('index'));
     const mostRecentUser = this.state.orderedList[index];
-    if (mostRecentUser === this.state.userList[0]) return;
-    const usersSet = new Set([mostRecentUser].concat(this.state.userList));
+    if (mostRecentUser === this.state.appdata.userLists[0]) return;
+    const usersSet = new Set([mostRecentUser].concat(this.state.appdata.userLists));
     const userArr = Array.from(usersSet);
+    const oldAppData = Object.assign({}, this.state.appdata);
+    const newAppData = Object.assign(oldAppData, { userLists: userArr });
     this.setState({
-      userList: userArr, 
+      appdata: newAppData,
       selectedIndex: index,
       userSrchInputField: '',
       userSrchStr: '',
-    }, ()=>{
-      // console.log(this.state.userList);
+    }, () => {
+      setItem('appdata', this.state.appdata)
     });
   }
 
-  clickX = (e) =>{
-    const index = parseInt( e.target.getAttribute('index') );
+  clickX = (e) => {
+    const index = parseInt(e.target.getAttribute('index'));
     const user = this.state.orderedList[index];
-    const soonToBeSelectedUser = this.state.orderedList[index+1];
+    const soonToBeSelectedUser = this.state.orderedList[index + 1];
     const text = `Are you sure you want to delete ${user}\n    and all of ${user}'s feeds?`;
 
-    if (window.confirm(text)){
+    if (window.confirm(text)) {
       // new ordered list
       const orderedList = this.state.orderedList;
-      const newOrderedList = orderedList.slice(0,index).concat(orderedList.slice(index+1));
+      const newOrderedList = orderedList.slice(0, index).concat(orderedList.slice(index + 1));
       // new user list with updated current user
       let selectedIndex = this.state.selectedIndex;
-      const newUserList0 = this.state.userList.filter(e => e !== user);
+      const newUserList0 = this.state.appdata.userLists.filter(e => e !== user);
       let newUserList = newUserList0;
-      if (user === this.state.userList[0]){ 
+      if (user === this.state.appdata.userLists[0]) {
         // if user to be removed is the same as selected user, update most current on userList
         newUserList0.unshift(soonToBeSelectedUser);
         const newSet = new Set(newUserList0);
         newUserList = Array.from(newSet);
       }
       if (index < selectedIndex) selectedIndex--;
-      
-      // delete user key from this.state.users
-      const newUsersObj = Object.assign({}, this.state.users);
+
+      // delete user key from this.state.appdata.users
+      const newUsersObj = Object.assign({}, this.state.appdata.users);
       const userKey = user.toLowerCase();
-      delete newUsersObj[userKey];   
+      delete newUsersObj[userKey];
 
       this.setState({
-        userList: newUserList,
+        appdata: { users: newUsersObj, userLists: newUserList },
         orderedList: newOrderedList,
-        users: newUsersObj,
         selectedIndex,
-      }, ()=>{
+      }, () => {
         alert(`${user}'s account permanently deleted.`)
+        setItem('appdata', this.state.appdata)
       })
     } else {
       console.log('not ready to delete yet')
       return;
     }
   }
-// <--------------- User Dropdown Logic
+  // <--------------- User Dropdown Logic
 
-// Add Feed Logic --------------------->
+  // Add Feed Logic --------------------->
   clickAddFeedBtn = (e) => {
     const newFeed = this.state.addFeedInputField;
     if (!newFeed) return;
-    if (!this.state.userList[0]){
+    if (!this.state.appdata.userLists[0]) {
       alert('No user selected yet.');
-      this.setState({addFeedInputField: ''});
+      this.setState({ addFeedInputField: '' });
       return;
     }
-    const userKey = this.state.userList[0].toLowerCase();
-    const oldFeedList = this.state.users[userKey].feeds;
+    const userKey = this.state.appdata.userLists[0].toLowerCase();
+    const oldFeedList = this.state.appdata.users[userKey].feeds;
 
-    if (oldFeedList.some(f => f.feedname.toLowerCase() === newFeed.trim().toLowerCase() )){
+    if (oldFeedList.some(f => f.feedname.toLowerCase() === newFeed.trim().toLowerCase())) {
       alert('This feed already exists!');
-      this.setState({addFeedInputField: ''});
+      this.setState({ addFeedInputField: '' });
       return;
     } else {
-      const newUsersObj = Object.assign({}, this.state.users);
+      const newUsersObj = Object.assign({}, this.state.appdata.users);
       const newFeedObj = {
         feedname: newFeed,
         videos: [],
@@ -231,16 +216,18 @@ class EditorApp extends Component {
       this.setState({
         users: newUsersObj,
         addFeedInputField: '',
+      }, () => {
+        setItem('appdata', this.state.appdata)
       });
     }
   }
 
   updateFeedInputField = (e) => {
-    if (e.target.value.length > 30){
+    if (e.target.value.length > 30) {
       alert('The feed name is too long!')
-      this.setState({addFeedInputField: ''});
+      this.setState({ addFeedInputField: '' });
     } else {
-      this.setState({addFeedInputField: e.target.value});
+      this.setState({ addFeedInputField: e.target.value });
     }
   }
 
@@ -249,11 +236,11 @@ class EditorApp extends Component {
     if (!this.state.addFeedInputField) return;
     this.clickAddFeedBtn();
   }
-// <--------------------- Add Feed Logic
+  // <--------------------- Add Feed Logic
 
-// Feed Dropdown Logic --------------------->
+  // Feed Dropdown Logic --------------------->
   showMatchingFeeds = (e) => {
-    if(e.target.value.length > 25){
+    if (e.target.value.length > 25) {
       alert('The feed name is too long!')
       this.setState({
         feedSrchInputField: '',
@@ -270,99 +257,120 @@ class EditorApp extends Component {
   clickFeed = (e) => {
     if (e.target.innerText === 'x') return;
     const index = parseInt(e.target.getAttribute('index'));
-    const userKey = this.state.userList[0].toLowerCase();
-    const oldFeedList = [...this.state.users[userKey].feeds];
+    const userKey = this.state.appdata.userLists[0].toLowerCase();
+    const oldFeedList = [...this.state.appdata.users[userKey].feeds];
     const clickedFeed = oldFeedList[index];
     oldFeedList.unshift(clickedFeed);
     const newFeedSet = new Set(oldFeedList);
     const newFeedList = Array.from(newFeedSet);
-    const newUsersObj = Object.assign({}, this.state.users);
+    const newUsersObj = Object.assign({}, this.state.appdata.users);
     newUsersObj[userKey].feeds = newFeedList;
-
-    this.setState({users: newUsersObj});
+    const newUserLists = [...this.state.appdata.userLists];
+    const newObj = { userLists: newUserLists, users: newUsersObj };
+    this.setState({ appdata: newObj }, () => {
+      setItem('appdata', this.state.appdata)
+    });
   }
 
-  clickFeedX = (e) =>{
+  clickFeedX = (e) => {
     if (e.target.innerText !== 'x') return;
-    const index = parseInt( e.target.getAttribute('index') );
-    const userKey = this.state.userList[0].toLowerCase();
-    const feedList = this.state.users[userKey].feeds;
-    const newFeedList = feedList.slice(0,index).concat(feedList.slice(index+1));
-    const newUsersObj = Object.assign({}, this.state.users);
+    const index = parseInt(e.target.getAttribute('index'));
+    const userKey = this.state.appdata.userLists[0].toLowerCase();
+    const feedList = this.state.appdata.users[userKey].feeds;
+    const newFeedList = feedList.slice(0, index).concat(feedList.slice(index + 1));
+    const newUsersObj = Object.assign({}, this.state.appdata.users);
     newUsersObj[userKey].feeds = newFeedList;
+    const newUserLists = [...this.state.appdata.userLists];
+    const newAppData = { users: newUsersObj, userLists: newUserLists }
 
-    this.setState({users: newUsersObj});
+    this.setState({ appdata: newAppData }, () => {
+      setItem('appdata', this.state.appdata)
+    });
   }
-// <--------------------- Feed Dropdown Logic
+  // <--------------------- Feed Dropdown Logic
 
-  componentDidMount = () =>{
-    // localStorage.getItem('');
-    // ordered list becomes a copy of userlist;
-    // const usersList = Object.keys(this.state.users);
-    // const currUser = this.state.userList[0];
-    // const currFeedObjs = this.state.users[currUser].feeds;
-    // const currentFeeds = currFeedObjs.map( feed => feed.feedname );
-    // this.setState({});
-    // localStorage.setItem('');
+  componentDidMount = () => {
+    getItem('appdata')
+      .then((data) => {
+        if (!data) {
+          setItem('appdata', this.state.appdata)
+        }
+        else {
+          // ordered list becomes a copy of userlist;
+          this.setState({
+            orderedList: data.userLists,
+            appdata: data,
+          })
+        }
+      })
   }
 
   render() {
-    const {orderedList, 
-            userList, 
-            addUserInputField,
-            selectedIndex,
-            userSrchStr,
-            userSrchInputField,
-            users,
+    const { orderedList,
+      appdata,
+      addUserInputField,
+      selectedIndex,
+      userSrchStr,
+      userSrchInputField,
 
-            feedSrchInputField,
-            feedSrchStr,
-            addFeedInputField
-          } = this.state;
+      feedSrchInputField,
+      feedSrchStr,
+      addFeedInputField
+    } = this.state;
 
-    const currFeeds = userList[0] ?
-      users[userList[0].toLowerCase()].feeds
+    const currFeeds = appdata.userLists[0] ?
+      appdata.users[appdata.userLists[0].toLowerCase()].feeds
       : [];
 
     return (
-      <div className='editor-wrapper'>
-        <div className='userbox'>
-          <AddUser 
-            clickAddBtn={this.clickAddBtn}
-            onUserEnter={this.onUserEnter}
-            addUserInputField={addUserInputField}
-            updateUserInputField={this.updateUserInputField}
-          />
-          <br />          
-          <UserList 
-            clickUser={this.clickUser}
-            currUser={userList[0] || []} 
-            orderedList={orderedList}
-            selectedIndex={selectedIndex}
-            showMatchingUsers={this.showMatchingUsers}
-            searchStr={userSrchStr}
-            userSrchInputField={userSrchInputField}
-            clickX={this.clickX}
-          />
+      <>
+        <div className='editor-wrapper' onClick={this.props.toggle}>
+          <div className='userbox'>
+            <AddUser
+              clickAddBtn={this.clickAddBtn}
+              onUserEnter={this.onUserEnter}
+              addUserInputField={addUserInputField}
+              updateUserInputField={this.updateUserInputField}
+            />
+            <br />
+            <UserList
+              clickUser={this.clickUser}
+              currUser={appdata.userLists[0] || []}
+              orderedList={orderedList}
+              selectedIndex={selectedIndex}
+              showMatchingUsers={this.showMatchingUsers}
+              searchStr={userSrchStr}
+              userSrchInputField={userSrchInputField}
+              clickX={this.clickX}
+            />
+          </div>
+          <div className='feedbox'>
+            <AddFeed
+              addFeedInputField={addFeedInputField}
+              updateFeedInputField={this.updateFeedInputField}
+              clickAddBtn={this.clickAddFeedBtn}
+              onFeedEnter={this.onFeedEnter}
+            />
+            <br />
+            <FeedList
+              currFeeds={currFeeds}
+              showMatchingFeeds={this.showMatchingFeeds}
+              feedSrchInputField={feedSrchInputField}
+              searchStr={feedSrchStr}
+              clickFeed={this.clickFeed}
+              clickFeedX={this.clickFeedX}
+            />
+          </div>
         </div>
-        <div className='feedbox'>
-          <AddFeed 
-            addFeedInputField={addFeedInputField}
-            updateFeedInputField={this.updateFeedInputField}
-            clickAddBtn={this.clickAddFeedBtn}
-            onFeedEnter={this.onFeedEnter}
-          />
-          <br />
-          <FeedList
-            currFeeds={currFeeds}
-            showMatchingFeeds={this.showMatchingFeeds}
-            feedSrchInputField={feedSrchInputField}
-            searchStr={feedSrchStr}
-            clickFeed={this.clickFeed}
-            clickFeedX={this.clickFeedX}
-          />
-        </div>
-      </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <Footer />
+      </>
     );
   }
 }

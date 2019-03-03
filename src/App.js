@@ -18,7 +18,6 @@ class App extends Component {
   }
 
   toggle = (e) => {
-    console.log(e.target)
     if(e.target.getAttribute('ismenu')){
       this.setState({menuOpen: !this.state.menuOpen})
     }
@@ -28,24 +27,27 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log(this.state.menuOpen)
-  }
 
+  // <Route path='' render={()=> <Navbar display={this.state.menuOpen} toggle={this.toggleMenu}/>}/>
   render() {
 
     return (
     <div className="max" onClick={this.toggle}>
-      <Navbar display={this.state.menuOpen} toggle={this.toggleMenu}/>
+   
       <HashRouter>
-        <Switch>
-          <Route path='/' exact component={HomeApp} toggle={this.toggleMenu}/>
-          <Route path='/editor' exact component={EditorApp} toggle={this.toggleMenu}/>
-          <Route path='/search/:search' exact toggle={this.toggleMenu} render={()=> <SearchApp isSearch={true} />}/>
-          <Route path='/history' exact toggle={this.toggleMenu} render={()=> <SearchApp isSearch={false} />}/>
-          <Route path='/video/:id' exact toggle={this.toggleMenu} component={VideoApp} />
-          <Route component={Err} />
-        </Switch>
+        <Route>
+          <>
+          <Navbar display={this.state.menuOpen} toggle={this.toggleMenu}/>
+         <Switch>
+            <Route path='/' exact component={HomeApp} toggle={this.toggleMenu}/>
+            <Route path='/editor' exact component={EditorApp} toggle={this.toggleMenu}/>
+            <Route path='/search/:search' exact toggle={this.toggleMenu} render={()=> <SearchApp isSearch={true} />}/>
+            <Route path='/history/:username' exact toggle={this.toggleMenu} render={()=> <SearchApp isSearch={false} />}/>
+            <Route path='/video/:id' exact toggle={this.toggleMenu} component={VideoApp} />
+            <Route component={Err} />
+          </Switch>
+          </>
+        </Route>
       </HashRouter>
     </div>)
   }

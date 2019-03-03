@@ -1,13 +1,13 @@
-.feed {
+.editorfeed {
     display: flex;
     width: 100%;
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
 }
-.feed:hover {
+.editorfeed:hover {
     border: 1px solid grey;
 }
-.feed:hover > .x-div{
+.editorfeed:hover > .x-div{
     display: block;
 }

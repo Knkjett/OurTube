@@ -3,6 +3,7 @@ import VideoPlayer from '../components/Video/videoplayer';
 import Footer from '../components/footer'
 
 const Err = () => {
+  let currentVid = {vidID :'7dYKEMSMV3w' };
   return (<>
     <div className='container'>
       <div className='row'>
@@ -12,7 +13,7 @@ const Err = () => {
         <h3>Oops, there seems to be an error!</h3>
       </div>
       <div className='row'>
-        < VideoPlayer vidID={'7dYKEMSMV3w'} /> 
+        < VideoPlayer currentVid={currentVid} /> 
       </div>
     </div>
     <br />

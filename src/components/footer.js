@@ -10,7 +10,7 @@ class Footer extends Component{
   }
   render() {
     return (<>
-      <footer className='page-footer font-small pt-4' style={{ backgroundColor: '#6900F9' }} onClick = {this.props.close} >
+      <footer className='page-footer font-small pt-4' style={{backgroundColor: '#6900F9', marginTop: '40px'}} onClick = {this.props.close} >
         <div className='container-fluid text-center text-md-left'>
           <div className='row'>
             <div className='col-lg-5 col-xs-12 mt-md-0 mt-3' style={{color: '#ffffff'}}>

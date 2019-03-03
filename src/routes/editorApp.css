@@ -2,6 +2,7 @@
     display: flex;
     max-width: 830px;
     margin: auto;
+    margin-top: 100px;
     justify-content: space-between;
 }
 input:focus {
@@ -9,9 +10,8 @@ input:focus {
 }
 .userbox {
     width: 49%;
-    padding: 20px;
 }
-.feedbox {
+.editorfeedbox {
     width: 49%;
     padding: 20px;
 }

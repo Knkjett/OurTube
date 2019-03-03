@@ -10,7 +10,7 @@ const Feed = props =>{
         clickFeed
     } = props;
 
-    const feedClassList = (index === 0) ? 'feed bg-blue font-white' : 'feed';
+    const feedClassList = (index === 0) ? 'editorfeed bg-blue font-white' : 'editorfeed';
     const selectedClassList = (index === 0) ? 'selected' : 'selected hide';
     return (
         <div index={index} className={feedClassList} onClick={clickFeed}>
