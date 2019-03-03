@@ -4,7 +4,7 @@ import AddFeed from '../components/Editor/addfeed';
 import UserList from '../containers/Editor/userlist';
 import FeedList from '../containers/Editor/feedlist';
 import './editorApp.css';
-
+import {getSearchResults, getVideoInfo, setItem, getItem} from '../services/service';
 
 class EditorApp extends Component {
   constructor(props) {
@@ -108,6 +108,8 @@ class EditorApp extends Component {
         orderedList: newOrderedList,
         users: newUsersObj,
         selectedIndex: lastIndex
+      }, ()=>{
+        setItem('appdata', {userLists: this.state.userList, users: this.state.users})
       });
     }
   }
@@ -157,7 +159,7 @@ class EditorApp extends Component {
       userSrchInputField: '',
       userSrchStr: '',
     }, ()=>{
-      // console.log(this.state.userList);
+      setItem('appdata', {userLists: this.state.userList, users: this.state.users})
     });
   }
 
@@ -195,6 +197,7 @@ class EditorApp extends Component {
         selectedIndex,
       }, ()=>{
         alert(`${user}'s account permanently deleted.`)
+        setItem('appdata', {userLists: this.state.userList, users: this.state.users})
       })
     } else {
       console.log('not ready to delete yet')
@@ -231,6 +234,8 @@ class EditorApp extends Component {
       this.setState({
         users: newUsersObj,
         addFeedInputField: '',
+      }, ()=>{
+        setItem('appdata', {userLists: this.state.userList, users: this.state.users})
       });
     }
   }
@@ -279,7 +284,9 @@ class EditorApp extends Component {
     const newUsersObj = Object.assign({}, this.state.users);
     newUsersObj[userKey].feeds = newFeedList;
 
-    this.setState({users: newUsersObj});
+    this.setState({users: newUsersObj}, ()=>{
+      setItem('appdata', {userLists: this.state.userList, users: this.state.users})
+    });
   }
 
   clickFeedX = (e) =>{
@@ -291,19 +298,27 @@ class EditorApp extends Component {
     const newUsersObj = Object.assign({}, this.state.users);
     newUsersObj[userKey].feeds = newFeedList;
 
-    this.setState({users: newUsersObj});
+    this.setState({users: newUsersObj}, ()=>{
+      setItem('appdata', {userLists: this.state.userList, users: this.state.users})
+    });
   }
 // <--------------------- Feed Dropdown Logic
 
   componentDidMount = () =>{
-    // localStorage.getItem('');
-    // ordered list becomes a copy of userlist;
-    // const usersList = Object.keys(this.state.users);
-    // const currUser = this.state.userList[0];
-    // const currFeedObjs = this.state.users[currUser].feeds;
-    // const currentFeeds = currFeedObjs.map( feed => feed.feedname );
-    // this.setState({});
-    // localStorage.setItem('');
+    getItem('appdata')
+    .then((data) => {
+      if (!data) {
+        setItem('appdata', {userLists: this.state.userList, users: this.state.users})
+      }
+      else {
+        // ordered list becomes a copy of userlist;
+        this.setState({
+          userList: data.userLists,
+          orderedList: data.userLists,
+          users: data.users
+        })
+      }
+    })
   }
 
   render() {
