@@ -2,14 +2,14 @@
 .PageWrapper {
   display: flex;
   padding:10%;
-  padding-top: 2%;
+  padding-top: 5%;
   padding-bottom: 0%;
   background:#ffffff;
 }
 
 
 .suggestionsWrapper{
-  display:inline-block;
+  display: list-item;
   padding-top: 0%;
   padding: 5%;
 }
@@ -17,9 +17,9 @@
 div.scrollmenu {
     border:gray solid 1px;
     background-color: #333;
-    overflow: auto;
+    overflow: scroll;
     white-space: nowrap;
-    /* position: relative; */
+    position: relative;
   }
   
   div.scrollmenu .card {
@@ -35,7 +35,7 @@ div.scrollmenu {
   }
 
   .loadMore{
-    position: relative;
+    position: absolute;
     right: -92px;
     width: 10%; 
     vertical-align: super;
@@ -52,6 +52,10 @@ div.scrollmenu {
 
 .watchLater {
   position:absolute;
-  top: 0;
+  top: -5;
   right: 0;
+}
+
+.watchLater:hover{
+  box-shadow: #ffffff;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { getSearchResults, getVideoInfo, setItem, getItem } from '../services/service'
 import { Row, Col, Button } from 'reactstrap';
 import VideoPlayer from '../components/Video/videoplayer';
@@ -7,6 +7,8 @@ import Suggestions from '../components/Video/suggesstion';
 import Comments from '../components/Video/comments';
 import '../components/Video/suggestion.css';
 import Footer from '../components/footer';
+import { convertPatternsToTasks } from 'fast-glob/out/managers/tasks';
+
 
 class VideoApp extends Component {
 
@@ -121,7 +123,7 @@ class VideoApp extends Component {
 
   loadMore = () => {
 
-    const currentUser = this.state.appdata.userLists[0];
+    // const currentUser = this.state.appdata.userLists[0];
     let currentUserData = { ...this.state.appdata };
     const searchQuery =  this.state.tags[Math.floor(Math.random() * (this.state.tags.length -1))];  
     let cpySuggestionsResults = this.state.suggestionsResults;
@@ -139,8 +141,39 @@ class VideoApp extends Component {
       })  
   }
 
+
+
   handleClicked = (e) => {
     const vidKey = e.target.getAttribute("vidid");
+    // console.log('running')
+
+    if (e.target.getAttribute("watchLater")) {
+          let appDataCpy = { ...this.state.appdata };
+        let currentUser = appDataCpy.userLists[0];
+        const vidIdx = e.target.getAttribute("idx");
+        const suggestionsResultsCpy = this.state.suggestionsResults;
+        // console.log("in the X ", vidIdx)
+        const currentVideo = this.state.suggestionsResults[vidIdx]
+        // suggestionsResultsCpy.splice(vidIdx,1);
+
+        if(appDataCpy.users[currentUser].toWatchLater.includes(currentVideo)){
+          return alert("Video Already exists in your to Watch Later")
+          }
+        else {
+            appDataCpy.users[currentUser].toWatchLater.push(currentVideo);
+          }
+
+        this.setState({
+          suggestionsResults: suggestionsResultsCpy,
+          appData: appDataCpy,
+        })
+        setItem('appdata', this.state.appdata)
+      
+
+    }
+
+    else {
+      
     let appDataCpy = { ...this.state.appdata };
     let currentUser = appDataCpy.userLists[0];
     let tagsCpy = this.state.tags;
@@ -181,29 +214,31 @@ class VideoApp extends Component {
         setItem('appdata', this.state.appdata)
 
       })
+    }
   }
 
-  handleWatchLater = (e) => {
+
+  handleListOfWatchLater = (e) => {
 
     let appDataCpy = { ...this.state.appdata };
     let currentUser = appDataCpy.userLists[0];
-    const vidIdx = e.target.getAttribute("idx");
-    const suggestionsResultsCpy = this.state.suggestionsResults;
-    // console.log("in the X ", vidIdx)
-    const currentVideo = this.state.suggestionsResults[vidIdx]
-    // suggestionsResultsCpy.splice(vidIdx,1);
-    appDataCpy.users[currentUser].toWatchLater.push(currentVideo);
+    let videoIdx = e.target.getAttribute("imgidx");
+
+    const vidToPlay = appDataCpy.users[currentUser].toWatchLater[videoIdx];
+    const id = appDataCpy.users[currentUser].toWatchLater[videoIdx].vidID;
+    appDataCpy.users[currentUser].toWatchLater.splice(videoIdx,1)
+    
 
     this.setState({
-      suggestionsResults: suggestionsResultsCpy,
+      currentVid: vidToPlay,
       appData: appDataCpy,
     })
-    setItem('appdata', this.state.appdata)
+    
   }
 
   render() {
 
-    // this.state.tags.map(e => { return console.log(e) })
+  
     return (
       <>
         <div className="PageWrapper">
@@ -212,17 +247,19 @@ class VideoApp extends Component {
             </Col>
 
             <Col>
-              < Comments currVidDescription={this.state.currentVid.description} currVidTags={this.state.tags} toWatchLaterList={this.state.appdata.users[this.state.appdata.userLists[0]].toWatchLater}/>
+              < Comments currVidDescription={this.state.currentVid.description} currVidTags={this.state.tags} toWatchLaterList={this.state.appdata.users[this.state.appdata.userLists[0]].toWatchLater}
+              handleListOfWatchLater={this.handleListOfWatchLater}/>
             </Col>
         </div>
 
         <div className="suggestionsWrapper">
-          <Button className="btn" color="secondary" size="lg" style={{ marginBottom: '0rem' }} block> Related Videos </Button>
+          <Button className="btn" color="info" size="lg" style={{ marginBottom: '0rem' }} onClick={this.loadMore} block> Load More Related Videos </Button>
           <Row>
             <div className="scrollmenu">
 
               {this.state.suggestionsResults.map((e, i) => {
                 return < Suggestions
+                  key={i}
                   idx ={i}
                   appData ={this.state.appdata}
                   thumbnail={e.thumbnail}
@@ -233,8 +270,6 @@ class VideoApp extends Component {
                   addToWatchLater={this.handleWatchLater}
                 />
               })}
-
-              <button className="loadMore" onClick={this.loadMore}> Load More </button>
             </div>
           </Row>
         </div>
