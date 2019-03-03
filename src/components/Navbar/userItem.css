@@ -1,0 +1,25 @@
+.userListItem{
+    display: flex;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 1.5em;
+    padding-left: 15px;
+}
+
+.userListItem:first-child{
+    padding-top: 5px;
+    border-top: 2px solid rgb(220, 220, 220);
+}
+
+.userListItem:last-child{
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgb(220, 220, 220);
+}
+
+.userListName{
+    padding-left: 8px;
+}
+
+.userListItem:hover{
+    background-color: rgb(220, 220, 220);
+}

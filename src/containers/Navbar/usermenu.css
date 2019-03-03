@@ -1,0 +1,101 @@
+
+.menu{
+    position: absolute;
+    padding: 0 !important;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    box-shadow: 8px -5px 25px 3px rgba(0, 0, 0, .25)
+}
+
+.col-md-3{
+    padding: 0;
+}
+
+.currentUser{
+    display: flex;
+    align-items: center;
+    background-color: rgb(228, 228, 228);
+    padding-left: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 1.5em;
+    width: 100%;
+}
+
+.currentUser .user {
+   margin-right: 8px;
+}
+
+.option .fas{
+    padding-right: 10px;
+}
+
+.optionName{
+    color: black;
+}
+
+.userName{
+    color: black;
+    padding-left: 3px;
+    font-weight: 600;
+}
+
+.smallUserIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 100%;
+    color: white;
+    background-color: rgb(0, 209, 209);
+    overflow: hidden;
+}
+
+.smallIcon{
+    font-size: 1.5e;
+}
+
+.userList{
+    background-color: rgb(240, 240, 240);
+}
+
+.userListItem{
+    display: flex;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 1.5em;
+    padding-left: 15px;
+}
+
+.userListItem:first-child{
+    padding-top: 5px;
+    border-top: 2px solid rgb(220, 220, 220);
+}
+
+.userListItem:last-child{
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgb(220, 220, 220);
+}
+
+.userListName{
+    padding-left: 8px;
+}
+
+.userListItem:hover{
+    background-color: rgb(220, 220, 220);
+}
+
+.option{
+    font-weight: 500;
+    color: rgb(119, 119, 119);
+    background-color: #FAFAFA;
+    padding-left: 20px;
+    font-size: 1.5em;
+    width: 100%;
+}
+
+.option:hover{
+    background-color: rgb(230, 230, 230);
+}

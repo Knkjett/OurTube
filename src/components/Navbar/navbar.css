@@ -1,0 +1,100 @@
+.user{
+    max-width: 10%;
+}
+
+.userIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    color: white;
+    background-color: gray;
+    overflow: hidden;
+}
+
+.icon{
+   font-size: 25px;
+}
+
+.search{
+    min-width: 50%;
+    max-width: 50%;
+    border: 1px solid #CDD4DB;
+    position: relative;
+}
+
+.searchField {
+    min-width: 100%;
+    border: none;
+    border-radius: 0;
+}
+
+.leftButtons {
+    display: flex;
+}
+
+.btn{
+    border: none;
+    border-radius: 0;
+    display: block;
+    text-align: center;
+}
+
+.searchBtn{
+    position: absolute;
+    right: 0;
+    width: 40px;
+    border-top: 1px solid #343a40;
+    border-bottom: 1px solid #343a40;
+}
+
+.navbar-brand{
+    padding-left: 10px;
+}
+
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
+                              
+}
+
+form.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+  }
+  
+  form.example button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: gray;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+  }
+  
+  form.example button:hover {
+    background: #0b7dda;
+  }
+  
+  form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}
