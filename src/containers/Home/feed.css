@@ -1,0 +1,45 @@
+.content{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row{
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+.feed{
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    background-color: rgb(233, 233, 233);
+    border: 1px solid rgb(155, 155, 155);
+}
+
+.feed .btn-dark{
+    width: 100%;
+}
+
+.fa{
+    position: absolute;
+    right: 0;
+    top: 12px;
+    font-size: 15px;
+}
+
+.feed-content{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.feed-content.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.feedName{
+    position: relative;
+    font-size: 25px;
+}

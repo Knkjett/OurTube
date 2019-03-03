@@ -1,0 +1,40 @@
+.videoContent{
+    width: 100%;
+}
+
+.video{
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.thumbnail-box{
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.thumbnail{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.videoName{
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.channelName{
+    color: gray
+}
+
+.bottomInfo{
+    display: flex;
+    color: gray;
+}
