@@ -6,7 +6,12 @@
   font-size:14px;
 }
 .listViewDesc{
+  display: flexbox;
+  align-items: center;
   font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 250px;
 }
 .hiddenVid{
   display: none !important;
@@ -14,6 +19,7 @@
 }
 .listViewThumbnail{
   height: auto;
+  max-height: 350px;
   width: 100%;
 }
 .listViewVideoPad{
@@ -21,6 +27,11 @@
   padding-bottom: 15px;
   border-bottom: gray 1px solid;
 }
+a,a:hover,a:visited{
+  text-decoration: none !important;
+  color:inherit !important;
+}
+
 /* 
 .toTop {
   border: 1px outset blue;

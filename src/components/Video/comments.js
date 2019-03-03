@@ -62,7 +62,7 @@ class Comments extends Component {
         <Card>
           <CardBody >
             
-            {this.props.toWatchLaterList.map((e,i) => { return <img className="toWatchLaterr" imgIdx={i} src={`${e.thumbnail}`} />})}
+            {/* {this.props.toWatchLaterList.map((e,i) => { return <img className="toWatchLaterr" imgIdx={i} src={`${e.thumbnail}`} />})} */}
 
             {/* <img className="toWatchLaterr" src={`${this.props.toWatchLaterList}`} /> */}
         

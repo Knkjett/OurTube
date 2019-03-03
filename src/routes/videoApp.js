@@ -40,9 +40,6 @@ class VideoApp extends Component {
     getItem('appdata')
       .then((data) => {
         if (!data) {
-          setItem('appdata', this.state.appdata)
-        }
-        else {
           getVideoInfo(id)
             .then(videoData => {
               // console.log(videoData)
@@ -57,29 +54,84 @@ class VideoApp extends Component {
                 "title": videoData.title,
                 "viewCount": videoData.viewCount
               }
-              // console.log("videoStatsTags: ", videoData.tags);
-
-              appdata2.users[currentUser].history.unshift(videoStats);
-              tags2 = videoStats.tags;
-
+              for (let i = 0; i < appdata2.users[currentUser].history.length; i++) {
+                if (id === appdata2.users[currentUser].history[i].vidID) {
+                  appdata2.users[currentUser].history.splice(i, 1);
+                }
+              }
+              tags2 = videoStats.tags
               getSearchResults(videoStats.tags, '')
                 .then(SuggestionsData => {
                   // let arr = suggestionsResults2.concat(SuggestionsData)
                   suggestionsResults2 = suggestionsResults2.concat(SuggestionsData);
-
-
+                  for (let i = 0; i < appdata2.users[currentUser].history.length; i++) {
+                    if (id === appdata2.users[currentUser].history[i].vidID) {
+                      appdata2.users[currentUser].history.splice(i, 1);
+                    }
+                  }
+                  appdata2.users[currentUser].history.unshift(videoStats);
                   this.setState({
                     currentVid: videoStats,
                     tags: tags2,
                     suggestionsResults: suggestionsResults2,
                     appdata: appdata2,
                   })
+                  
+              setItem('appdata', this.state.appdata)
+              this.setState({
+                currentVid: videoStats,
+                tags: tags2,
+                suggestionsResults: suggestionsResults2,
+                appdata: appdata2,
+              })
+          })
+        })
+      }
+        else {
+          console.log('DATA====',data.users[currentUser].history)
+          getVideoInfo(id)
+            .then(videoData => {
+              appdata2 = data;
+              console.log("HISTORY STATE===",this.state.appdata.users[currentUser].history)
+              // console.log(videoData)
+              let videoStats = {
+                "vidID": id,
+                "channelTitle": videoData.channelTitle,
+                "description": videoData.description,
+                "duration": videoData.duration,
+                "publishedAt": videoData.publishedAt,
+                "tags": videoData.tags,
+                "thumbnail": videoData.thumbnail,
+                "title": videoData.title,
+                "viewCount": videoData.viewCount
+              }
+              // console.log("videoStatsTags: ", videoData.tags);
 
+              tags2 = videoStats.tags;
+
+              getSearchResults(videoStats.tags, '')
+                .then(SuggestionsData => {
+                  // let arr = suggestionsResults2.concat(SuggestionsData)
+                  suggestionsResults2 = suggestionsResults2.concat(SuggestionsData);
+                  for (let i = 0; i < appdata2.users[currentUser].history.length; i++) {
+                    if (id === appdata2.users[currentUser].history[i].vidID) {
+                      appdata2.users[currentUser].history.splice(i, 1);
+                    }
+                  }
+                  appdata2.users[currentUser].history.unshift(videoStats);
+                  this.setState({
+                    currentVid: videoStats,
+                    tags: tags2,
+                    suggestionsResults: suggestionsResults2,
+                    appdata: appdata2,
+                  })
+                  
                   // console.log("this.State in cdidMount: ",this.state)
                   setItem('appdata', this.state.appdata)
                 })
             })
         }
+       
       })
   }
 
@@ -109,9 +161,8 @@ class VideoApp extends Component {
 
   handleClicked = (e) => {
 
-    const { id } = this.props.match.params;
 
-    this.props.history.push(`/video/${id}`)
+    
     const vidKey = e.target.getAttribute("vidid");
     let appDataCpy = { ...this.state.appdata };
     let currentUser = appDataCpy.userLists[0];
@@ -119,7 +170,7 @@ class VideoApp extends Component {
       // if (e.taget.getAttribute('icon') !== null) {
       //   console.log("icon: ",e.target.getAttribute("icon"))
       // }
-
+    this.props.history.push(`/video/${vidKey}`)
     // console.log('target: ', e.target)
 
     getVideoInfo(vidKey)
@@ -137,8 +188,14 @@ class VideoApp extends Component {
           "viewCount": videoData.viewCount
         }
         // console.log("videoStats: ", videoStats);
-
-        appDataCpy.users[currentUser].history = appDataCpy.users[currentUser].history.concat(videoStats);
+        for (let i = 0; i < appDataCpy.users[currentUser].history.length; i++) {
+          if (vidKey === appDataCpy.users[currentUser].history[i].vidID) {
+            console.log("HERE==",i)
+            appDataCpy.users[currentUser].history.splice(i, 1);
+          }
+        }
+        appDataCpy.users[currentUser].history.unshift(videoStats);
+        console.log('DATA=======',appDataCpy)
         tagsCpy = videoData.tags;
 
         this.setState({
