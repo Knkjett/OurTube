@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+const decodeEntities = (encodeString) => {
+  var textArea = document.createElement('textarea');
+  textArea.innerHTML = encodeString;
+  return textArea.value;
+}
+
 const getSearchResults = (search, token) => {
   return axios({
       method: 'get',
@@ -10,18 +16,21 @@ const getSearchResults = (search, token) => {
         videoDefinition: 'high',
         type: 'video',
         videoEmbeddable: 'true',
-        key: "AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU", // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg'
+        key: 'AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE', //'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU',
         q: `${search}`,
         pageToken: `${token}`
       }
     })
     .then((res)=>{
       return res.data.items.map((e,i)=>{
+        let titleParsed = decodeEntities(e.snippet.title)
+        let cTitleParsed = decodeEntities(e.snippet.channelTitle)
+        let descParsed = decodeEntities(e.snippet.description)
         let video = {
           'vidID': e.id.videoId,
-          'title': e.snippet.title,
-          'channelTitle': e.snippet.channelTitle,
-          'description': e.snippet.description,
+          'title': titleParsed,
+          'channelTitle': cTitleParsed,
+          'description': descParsed,
           'publishedAt': e.snippet.publishedAt,
           'thumbnail' : `https://i.ytimg.com/vi/${e.id.videoId}/mqdefault.jpg`,
           'token' : res.data.nextPageToken
@@ -40,20 +49,25 @@ const getVideoInfo = (videoID) => {
         id: `${videoID}`,
         type: 'list',
         part: 'snippet,contentDetails,statistics',
-        key: "AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU" , // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg'
+        key: "AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE" , // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU'
       }
     })
     .then((res)=>{
       let info = res.data.items[0];
+      let tags = info.snippet.tags.map(e => {return e})
+      let titleParsed = decodeEntities(info.snippet.title)
+      let cTitleParsed = decodeEntities(info.snippet.channelTitle)
+      let descParsed = decodeEntities(info.snippet.description)
       let videoStats = {
-        'title': info.snippet.title,
+        'vidID': videoID,
+        'title': titleParsed,
         'duration' : info.contentDetails.duration,
-        'channelTitle': info.snippet.channelTitle,
-        'description' : info.snippet.description,
+        'channelTitle': cTitleParsed,
+        'description' : descParsed,
         'viewCount': info.statistics.viewCount,
         'publishedAt' : info.snippet.publishedAt,
-        'thumbnail': info.snippet.thumbnails.maxres.url,
-        'tags': `${info.snippet.tags[0]} ${info.snippet.tags[1]}`,
+        'thumbnail': info.snippet.thumbnails.standard.url,
+        'tags': tags,
       };
       return videoStats;
     })

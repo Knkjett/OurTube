@@ -1,44 +1,79 @@
-import React from "react";
-import './comments.css'
-import { Media } from 'reactstrap';
+import React, { Component } from 'react';
+import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import "./comments.css"
 
 
-const Comments = (props) => {
-    return (
+class Comments extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { 
+      collapse: true,
+      collapse2: false,
+      collapse3: false,
+     };
+  }
+
+  toggle= () => {
+    this.setState({ 
+      collapse: !this.state.collapse,
+    });
+  }
+
+  toggle2 = () => {
+    this.setState({ 
+      collapse2: !this.state.collapse2,
+    });
+  }
+
+  toggle3= () => {
+    this.setState({ 
+      collapse3: !this.state.collapse3,
+    });
+  }
+
+  render() {
+    console.log("to watch later: ",this.props.toWatchLaterList)
+    return ( <>
       <div className="wrapper">
-      
-       <p> HTML Emmet snippets
-HTML custom snippets are applicable to all other markup flavors like haml or jade. When snippet value is an abbreviation and not actual HTML, the appropriate transformations can be applied to get the right output as per the language type.
-
-For example, for an unordered list with a list item, if your snippet value is ul>li, you can use the same snippet in html, haml, jade or slim, but if your snippet value is <ul><li></li></ul>, then it will work only in html files.
-
-If you want a snippet for plain text, then surround the text with the {}.
-
-CSS Emmet snippets
-Values for CSS Emmet snippets should be a complete property name and value pair.
-
-CSS custom snippets are applicable to all other stylesheet flavors like scss, less or sass. Therefore, don't include a trailing ; at the end of the snippet value. Emmet will add it as needed based on the whether the language requires it.
-
-Do not use : in the snippet name. : is used to separate property name and value when Emmet tries to fuzzy match the abbreviation to one of the snippets.
-
-HTML Emmet snippets
-HTML custom snippets are applicable to all other markup flavors like haml or jade. When snippet value is an abbreviation and not actual HTML, the appropriate transformations can be applied to get the right output as per the language type.
-
-For example, for an unordered list with a list item, if your snippet value is ul>li, you can use the same snippet in html, haml, jade or slim, but if your snippet value is <ul><li></li></ul>, then it will work only in html files.
-
-If you want a snippet for plain text, then surround the text with the {}.
-
-CSS Emmet snippets
-Values for CSS Emmet snippets should be a complete property name and value pair.
-
-CSS custom snippets are applicable to all other stylesheet flavors like scss, less or sass. Therefore, don't include a trailing ; at the end of the snippet value. Emmet will add it as needed based on the whether the language requires it.
-
-Do not use : in the snippet name. : is used to separate property name and value when Emmet tries to fuzzy match the abbreviation to one of the snippets.
-
-
-        </p>
+    
+        <Button className="btn" color="secondary" size="lg" onClick={this.toggle} style={{ marginBottom: '0rem' }} block> Description </Button>
+        <Collapse isOpen={this.state.collapse}>
+          <Card>
+            <CardBody>
+              {this.props.currVidDescription}
+            </CardBody>
+          </Card>
+        </Collapse>
       </div>
+      <div>
+      <Button color="secondary" size="lg" onClick={this.toggle2} style={{ marginBottom: '1rem' }} block> Tags </Button>
+      <Collapse isOpen={this.state.collapse2}>
+        <Card>
+          <CardBody>
+            <h4>{this.props.currVidTags.map(e => { return e + " "})} </h4>
+          </CardBody>
+        </Card>
+      </Collapse>
+    </div>
+    <div>
+      <Button color="secondary" size="lg" onClick={this.toggle3} style={{ marginBottom: '1rem' }} block> Watch Later </Button>
+      <Collapse isOpen={this.state.collapse3}>
+        <Card>
+          <CardBody >
+            
+            {this.props.toWatchLaterList.map((e,i) => { return <img className="toWatchLaterr" imgIdx={i} src={`${e.thumbnail}`} />})}
+
+            {/* <img className="toWatchLaterr" src={`${this.props.toWatchLaterList}`} /> */}
+        
+          </CardBody>
+        </Card>
+      </Collapse>
+    </div>
+    
+    </>
     );
-  };
-  
-  export default Comments;
+  }
+}
+
+export default Comments

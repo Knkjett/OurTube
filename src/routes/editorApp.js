@@ -10,11 +10,46 @@ class EditorApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showDropDown: false,
       addUserInputField: '',
-      userList: ['Guest', 'Mo', 'Taq'],
-      orderedList: ['Guest', 'Mo', 'Taq'],
+      userSrchInputField: '',
+      userSrchStr: '',
+
+      userList: ['Guest', 'Mo', 'Taqistan'],
+      orderedList: ['Guest', 'Mo', 'Taqistan'],
+      selectedIndex: 0,
+
+      feedSrchInputField: '',
+      feedSrchStr: '',
+      addFeedInputField: '',
+
       users: {
+        mo: {
+          displayName: 'Mo',
+          feeds: [
+            {feedname: 'momos', videos: [], lastUpdated: new Date()},
+            {feedname: 'how to make money', videos: [], lastUpdated: new Date()},
+            {feedname: 'new tech', videos: [], lastUpdated: new Date()},
+            {feedname: 'react lecture', videos: [], lastUpdated: new Date()},
+            {feedname: 'funny tech interviews', videos: [], lastUpdated: new Date()},
+            {feedname: 'current news', videos: [], lastUpdated: new Date()},
+          ],
+        },
+        taqistan: {
+          displayName: 'Taqistan',
+          feeds: [
+            {feedname: 'best halal food', videos: [], lastUpdated: new Date()},
+            {feedname: 'cute cats', videos: [], lastUpdated: new Date()},
+            {feedname: 'cute kittens', videos: [], lastUpdated: new Date()},
+            {feedname: 'old school tech', videos: [], lastUpdated: new Date()},
+            {feedname: 'intersection co', videos: [], lastUpdated: new Date()},
+            {feedname: 'recursion', videos: [], lastUpdated: new Date()},
+            {feedname: 'lol', videos: [], lastUpdated: new Date()},
+            {feedname: 'best gyms in nyc', videos: [], lastUpdated: new Date()},
+            {feedname: 'science', videos: [], lastUpdated: new Date()},
+            {feedname: 'new break throughs in science', videos: [], lastUpdated: new Date()},
+            {feedname: 'how to be human', videos: [], lastUpdated: new Date()},
+          ],
+        },
         'guest': {
           displayName: 'GuesT',
           feeds: [
@@ -50,19 +85,12 @@ class EditorApp extends Component {
     }
   }
 
-  clickUser = (e) =>{
-    const index = parseInt(e.target.getAttribute('index'));
-    const userList = [...this.state.userList];
-    const mostRecentUser = [userList[index]];
-    const usersSet = new Set(mostRecentUser.concat(userList));
-    const userArr = Array.from(usersSet);
-    this.setState({userList: userArr});
-  }
-
+// Add User Logic ----------------->
   clickAddBtn = (e) =>{
-    if (!this.state.addUserInputField) return;
     const newUser = this.state.addUserInputField;
     const userKey = newUser.toLowerCase();
+
+    if (!newUser) return;
 
     if (this.state.users[userKey]){
       alert('This user already exists. Please choose another name.');
@@ -72,12 +100,14 @@ class EditorApp extends Component {
       const newOrderedList = this.state.orderedList.concat([newUser]);
       const newUsersObj = Object.assign({}, this.state.users);
       newUsersObj[userKey] = {displayName: newUser, feeds: [], };
+      const lastIndex = this.state.orderedList.length;
 
       this.setState({
         addUserInputField: '',
         userList: newUserList,
         orderedList: newOrderedList,
         users: newUsersObj,
+        selectedIndex: lastIndex
       });
     }
   }
@@ -88,16 +118,186 @@ class EditorApp extends Component {
     this.clickAddBtn();
   }
 
-  clickCurrUser = (e) =>{
-    this.setState({showDropDown: !this.state.showDropDown});
+  updateUserInputField = (e) =>{
+    if (e.target.value.length > 25){
+      alert('The user name is too long!')
+      this.setState({addUserInputField: ''});
+    } else {
+      this.setState({addUserInputField: e.target.value});
+    }
+  }
+// <--------------- Add User Logic
+
+// User Dropdown Logic ----------------->
+  showMatchingUsers = (e) => {
+    if(e.target.value.length > 25){
+      alert('The username is too long!')
+      this.setState({
+        userSrchInputField: '',
+        userSrchStr: '',
+      });
+    } else {
+      this.setState({
+        userSrchStr: e.target.value.toLowerCase().trim(),
+        userSrchInputField: e.target.value,
+      });
+    }
   }
 
-  updateUserInputField = (e) =>{
-    this.setState({addUserInputField: e.target.value});
+  clickUser = (e) => {
+    if (e.target.innerText === 'x') return;
+    const index = parseInt(e.target.getAttribute('index'));
+    const mostRecentUser = this.state.orderedList[index];
+    if (mostRecentUser === this.state.userList[0]) return;
+    const usersSet = new Set([mostRecentUser].concat(this.state.userList));
+    const userArr = Array.from(usersSet);
+    this.setState({
+      userList: userArr, 
+      selectedIndex: index,
+      userSrchInputField: '',
+      userSrchStr: '',
+    }, ()=>{
+      // console.log(this.state.userList);
+    });
   }
+
+  clickX = (e) =>{
+    const index = parseInt( e.target.getAttribute('index') );
+    const user = this.state.orderedList[index];
+    const soonToBeSelectedUser = this.state.orderedList[index+1];
+    const text = `Are you sure you want to delete ${user}\n    and all of ${user}'s feeds?`;
+
+    if (window.confirm(text)){
+      // new ordered list
+      const orderedList = this.state.orderedList;
+      const newOrderedList = orderedList.slice(0,index).concat(orderedList.slice(index+1));
+      // new user list with updated current user
+      let selectedIndex = this.state.selectedIndex;
+      const newUserList0 = this.state.userList.filter(e => e !== user);
+      let newUserList = newUserList0;
+      if (user === this.state.userList[0]){ 
+        // if user to be removed is the same as selected user, update most current on userList
+        newUserList0.unshift(soonToBeSelectedUser);
+        const newSet = new Set(newUserList0);
+        newUserList = Array.from(newSet);
+      }
+      if (index < selectedIndex) selectedIndex--;
+      
+      // delete user key from this.state.users
+      const newUsersObj = Object.assign({}, this.state.users);
+      const userKey = user.toLowerCase();
+      delete newUsersObj[userKey];   
+
+      this.setState({
+        userList: newUserList,
+        orderedList: newOrderedList,
+        users: newUsersObj,
+        selectedIndex,
+      }, ()=>{
+        alert(`${user}'s account permanently deleted.`)
+      })
+    } else {
+      console.log('not ready to delete yet')
+      return;
+    }
+  }
+// <--------------- User Dropdown Logic
+
+// Add Feed Logic --------------------->
+  clickAddFeedBtn = (e) => {
+    const newFeed = this.state.addFeedInputField;
+    if (!newFeed) return;
+    if (!this.state.userList[0]){
+      alert('No user selected yet.');
+      this.setState({addFeedInputField: ''});
+      return;
+    }
+    const userKey = this.state.userList[0].toLowerCase();
+    const oldFeedList = this.state.users[userKey].feeds;
+
+    if (oldFeedList.some(f => f.feedname.toLowerCase() === newFeed.trim().toLowerCase() )){
+      alert('This feed already exists!');
+      this.setState({addFeedInputField: ''});
+      return;
+    } else {
+      const newUsersObj = Object.assign({}, this.state.users);
+      const newFeedObj = {
+        feedname: newFeed,
+        videos: [],
+        lastUpdated: new Date(),
+      };
+      newUsersObj[userKey].feeds.unshift(newFeedObj);
+
+      this.setState({
+        users: newUsersObj,
+        addFeedInputField: '',
+      });
+    }
+  }
+
+  updateFeedInputField = (e) => {
+    if (e.target.value.length > 30){
+      alert('The feed name is too long!')
+      this.setState({addFeedInputField: ''});
+    } else {
+      this.setState({addFeedInputField: e.target.value});
+    }
+  }
+
+  onFeedEnter = (e) => {
+    if (e.key !== 'Enter') return;
+    if (!this.state.addFeedInputField) return;
+    this.clickAddFeedBtn();
+  }
+// <--------------------- Add Feed Logic
+
+// Feed Dropdown Logic --------------------->
+  showMatchingFeeds = (e) => {
+    if(e.target.value.length > 25){
+      alert('The feed name is too long!')
+      this.setState({
+        feedSrchInputField: '',
+        feedSrchStr: '',
+      });
+    } else {
+      this.setState({
+        feedSrchStr: e.target.value.toLowerCase().trim(),
+        feedSrchInputField: e.target.value,
+      });
+    }
+  }
+
+  clickFeed = (e) => {
+    if (e.target.innerText === 'x') return;
+    const index = parseInt(e.target.getAttribute('index'));
+    const userKey = this.state.userList[0].toLowerCase();
+    const oldFeedList = [...this.state.users[userKey].feeds];
+    const clickedFeed = oldFeedList[index];
+    oldFeedList.unshift(clickedFeed);
+    const newFeedSet = new Set(oldFeedList);
+    const newFeedList = Array.from(newFeedSet);
+    const newUsersObj = Object.assign({}, this.state.users);
+    newUsersObj[userKey].feeds = newFeedList;
+
+    this.setState({users: newUsersObj});
+  }
+
+  clickFeedX = (e) =>{
+    if (e.target.innerText !== 'x') return;
+    const index = parseInt( e.target.getAttribute('index') );
+    const userKey = this.state.userList[0].toLowerCase();
+    const feedList = this.state.users[userKey].feeds;
+    const newFeedList = feedList.slice(0,index).concat(feedList.slice(index+1));
+    const newUsersObj = Object.assign({}, this.state.users);
+    newUsersObj[userKey].feeds = newFeedList;
+
+    this.setState({users: newUsersObj});
+  }
+// <--------------------- Feed Dropdown Logic
 
   componentDidMount = () =>{
     // localStorage.getItem('');
+    // ordered list becomes a copy of userlist;
     // const usersList = Object.keys(this.state.users);
     // const currUser = this.state.userList[0];
     // const currFeedObjs = this.state.users[currUser].feeds;
@@ -109,9 +309,20 @@ class EditorApp extends Component {
   render() {
     const {orderedList, 
             userList, 
-            showDropDown,
             addUserInputField,
+            selectedIndex,
+            userSrchStr,
+            userSrchInputField,
+            users,
+
+            feedSrchInputField,
+            feedSrchStr,
+            addFeedInputField
           } = this.state;
+
+    const currFeeds = userList[0] ?
+      users[userList[0].toLowerCase()].feeds
+      : [];
 
     return (
       <div className='editor-wrapper'>
@@ -125,16 +336,31 @@ class EditorApp extends Component {
           <br />          
           <UserList 
             clickUser={this.clickUser}
-            clickCurrUser={this.clickCurrUser}
-            userList={userList} 
+            currUser={userList[0] || []} 
             orderedList={orderedList}
-            showDropDown={showDropDown}
+            selectedIndex={selectedIndex}
+            showMatchingUsers={this.showMatchingUsers}
+            searchStr={userSrchStr}
+            userSrchInputField={userSrchInputField}
+            clickX={this.clickX}
           />
         </div>
         <div className='feedbox'>
-          <AddFeed />
+          <AddFeed 
+            addFeedInputField={addFeedInputField}
+            updateFeedInputField={this.updateFeedInputField}
+            clickAddBtn={this.clickAddFeedBtn}
+            onFeedEnter={this.onFeedEnter}
+          />
           <br />
-          <FeedList />
+          <FeedList
+            currFeeds={currFeeds}
+            showMatchingFeeds={this.showMatchingFeeds}
+            feedSrchInputField={feedSrchInputField}
+            searchStr={feedSrchStr}
+            clickFeed={this.clickFeed}
+            clickFeedX={this.clickFeedX}
+          />
         </div>
       </div>
     );
