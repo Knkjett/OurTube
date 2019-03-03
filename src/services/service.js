@@ -7,6 +7,7 @@ const decodeEntities = (encodeString) => {
 }
 
 const getSearchResults = (search, token='', maxRe=24) => {
+  
   return axios({
       method: 'get',
       url: 'https://www.googleapis.com/youtube/v3/search',
@@ -16,12 +17,15 @@ const getSearchResults = (search, token='', maxRe=24) => {
         videoDefinition: 'high',
         type: 'video',
         videoEmbeddable: 'true',
-        key: 'AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk', // //AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4//'AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE', //'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU',
+        key: 'AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4',// 'AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk', // //AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4//'AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE', //'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU',
         q: `${search}`,
         pageToken: `${token}`
       }
+      
+      
     })
     .then((res)=>{
+      console.log('res',res)
       return res.data.items.map((e,i)=>{
         let titleParsed = decodeEntities(e.snippet.title)
         let cTitleParsed = decodeEntities(e.snippet.channelTitle)
@@ -49,10 +53,11 @@ const getVideoInfo = (videoID) => {
         id: `${videoID}`,
         type: 'list',
         part: 'snippet,contentDetails,statistics',
-        key: 'AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk',//'AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4', //AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk //"AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE"  // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU'
+        key: 'AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4', // 'AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk',//'AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4', //AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk //"AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE"  // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU'
       }
     })
     .then((res)=>{
+      console.log('res',res.data.items)
       let info = res.data.items[0];
       let tags = info.snippet.tags.map(e => {return e})
       let titleParsed = decodeEntities(info.snippet.title)
@@ -66,7 +71,7 @@ const getVideoInfo = (videoID) => {
         'description' : descParsed,
         'viewCount': info.statistics.viewCount,
         'publishedAt' : info.snippet.publishedAt,
-        'thumbnail': info.snippet.thumbnails.standard.url,
+        'thumbnail': `https://i.ytimg.com/vi/${videoID}/mqdefault.jpg`,
         'tags': tags,
       };
       return videoStats;

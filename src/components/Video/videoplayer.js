@@ -2,6 +2,9 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 
 const VideoPlayer = (props) => {
+
+    // const published = props.currentVid.publishedAt;
+    // const toPublish = published.split(".")
     return (
         
         <>
@@ -16,12 +19,17 @@ const VideoPlayer = (props) => {
                     <thead>
                         <tr> 
                             
-                            <th scope="col">ChannelTitle: {props.currentVid.channelTitle}</th>
-                            <th scope="col">Duration: {props.currentVid.duration}</th>
-                            <th scope="col"> Views: {props.currentVid.viewCount}</th>
-                            {/* <th scope="col">Sp. Attack</th> */}
-                            {/* <th scope="col">Sp. Defense</th> */}
-                            {/* <th scope="col">Speed</th> */}
+                            <th scope="col">ChannelTitle:</th>
+                            <th scope="col">Published At:</th>
+                            <th scope="col"> Views: </th>
+
+                        </tr>
+                        <tr>
+
+                        <th scope="col"><h5>{props.currentVid.channelTitle}</h5></th>
+                        <th scope="col"><h5> {props.currentVid.publishedAt}</h5></th>
+                        <th scope="col"><h5> {props.currentVid.viewCount}</h5></th>
+
                         </tr>
                     </thead>
                 </table>
