@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import Catalogue from '../containers/Home/catalogue'
 import { getItem, setItem } from '../services/service'
+import Footer from '../components/footer'
 
 class HomeApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
       appdata: {
-        userList: ['guest', 'guest', 'guest', 'guest', 'guest', 'guest'],
+        userLists: ['guest'],
         users: {
           'guest': {
+            toWatchLater: [],
             feeds: [
               {
                 feedname: 'cats',
@@ -40,6 +42,8 @@ class HomeApp extends Component {
                 ],
                 updated: (Date.now() - 3600001),
             }],
+            history:[],
+            queries:[]
           }
         }
       }
@@ -48,12 +52,11 @@ class HomeApp extends Component {
 
   getOutdated = (data) => {
     const copy = {...data}
-    const user = copy.userList[0]
+    const user = copy.userLists[0]
     const feeds = copy.users[user].feeds
     const outdated = feeds.map((feed, i) => {
       if(Date.now() - feed.updated >= 3600000){
         feed.isLoading = true;
-        console.log(feed.feedname, feed.isLoading)
         return {'name': feed.feedname, 'position':i}
       }
     })
@@ -97,17 +100,18 @@ class HomeApp extends Component {
           setItem('appdata', this.state.appdata)
         }
         else {
-          this.getOutdated(this.state.appdata)
+          this.getOutdated(data)
         }
       })
   }
 
   render() {
-    const active = this.state.appdata.userList[0];
+    const active = this.state.appdata.userLists[0];
     const userName = active.slice(0,1).toUpperCase() + active.slice(1);
     setItem('appdata',this.state.appdata)
     return (<>
       <Catalogue toggle={this.props.toggle}/>
+      <Footer />
       </>)
   }
 }

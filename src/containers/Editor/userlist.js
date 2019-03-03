@@ -29,7 +29,7 @@ const UserList = props =>{
                 </div>
                 <div className='user-dropdown'>
                     <div className='search-div'>
-                        <input className='search' onChange={showMatchingUsers} type='text' placeholder='Search user...' value={userSrchInputField}/>
+                        <input className='editorsearch' onChange={showMatchingUsers} type='text' placeholder='Search user...' value={userSrchInputField}/>
                     </div>
                     <div className='user-dlist'>
                         { hasMatchingUser 

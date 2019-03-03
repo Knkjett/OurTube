@@ -6,9 +6,9 @@ import './searchList.css';
 const VideoCard = (props) => {
   const isHidden = props.hidden ? props.hidden : '';
   return (<>
-    <div className={`row listViewVideoPad ${isHidden}`} onClick={props.cb} value={props.ele.vidID}>
-      <img className='col-sm-5 col-xs-12 listViewThumbnail' src={props.ele.thumbnail} alt='thumbnail' value={props.ele.vidID}/>
-      <div className='col-sm-7 col-xs-12' value={props.ele.vidID}>
+    <div className={`row justify-content-center listViewVideoPad ${isHidden}`} onClick={props.cb} value={props.ele.vidID}>
+      <img className='col-sm-4 col-xs-12 listViewThumbnail' src={props.ele.thumbnail} alt='thumbnail' value={props.ele.vidID}/>
+      <div className='col-sm-8 col-xs-12' value={props.ele.vidID}>
         <div className='row listViewtitle' value={props.ele.vidID}>{props.ele.title}</div>
         <div className='row' value={props.ele.vidID}>
           <span className='listViewChannelInfo' value={props.ele.vidID}>{props.ele.channelTitle} • {Moment(props.ele.publishedAt).fromNow()}</span>

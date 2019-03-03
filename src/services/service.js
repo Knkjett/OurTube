@@ -6,17 +6,17 @@ const decodeEntities = (encodeString) => {
   return textArea.value;
 }
 
-const getSearchResults = (search, token) => {
+const getSearchResults = (search, token='', maxRe=24) => {
   return axios({
       method: 'get',
       url: 'https://www.googleapis.com/youtube/v3/search',
       params: {
         part: 'snippet',
-        maxResults: 24,
+        maxResults: maxRe,
         videoDefinition: 'high',
         type: 'video',
         videoEmbeddable: 'true',
-        key: 'AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4', //'AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE', //'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU',
+        key: 'AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk', // //AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4//'AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE', //'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU',
         q: `${search}`,
         pageToken: `${token}`
       }
@@ -49,7 +49,7 @@ const getVideoInfo = (videoID) => {
         id: `${videoID}`,
         type: 'list',
         part: 'snippet,contentDetails,statistics',
-        key: 'AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4', //"AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE"  // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU'
+        key: 'AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk',//'AIzaSyDYBvl9E3OnbTu9a1Yzho92JDvvV7SQUA4', //AIzaSyDOFMGuhvVjPsTnOReo9vKcSMVQbO-hkrk //"AIzaSyAiQQ2iNo-tX2YPEBIR2dlomTz9gGmc4LE"  // 'AIzaSyA1IbC0luLEbBiBVEMUsRcJ2nYxPliGWAg, AIzaSyCb9A4kjrypWw84UxCN6AwnagElm_90OlU'
       }
     })
     .then((res)=>{

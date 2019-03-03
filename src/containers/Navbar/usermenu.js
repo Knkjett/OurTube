@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import UserItem from '../../components/Navbar/userItem'
 import './usermenu.css';
+import {Link, withRouter} from 'react-router-dom';
 
 class UserMenu extends Component {
     constructor(props){
         super(props)
         this.state = {
             appdata: this.props.appdata,
+            test:0,
             userList: {
                 currentUser: (this.props.users[0].slice(0,1).toUpperCase() + this.props.users[0].slice(1)),
                 list: this.props.users,
@@ -14,7 +16,10 @@ class UserMenu extends Component {
             }
         }
     }
-
+    componentWillReceiveProps = (newProps) =>{
+        this.setState({test: this.state.test++})
+        console.log(this.state.test)
+      }
     clickHandler = () => {
         const userList = this.state.userList;
         userList.isOpen = !userList.isOpen;
@@ -42,12 +47,14 @@ class UserMenu extends Component {
                 {currentUser}
             </div>
         </div>
+        <Link to='/editor'>
         <div className="option" ismenuitem={'true'}>
-            <i className="fas fa-user-cog" aria-hidden="true" ismenuitem={'true'}></i><span className="optionName" ismenuitem={'true'}>Settings</span>
+                <i className="fas fa-user-cog" aria-hidden="true" ismenuitem={'true'}></i><span className="optionName" ismenuitem={'true'}>Editor</span>
         </div>
-        <div className="option" onClick={this.clickHandler} ismenuitem={'true'}>
+        </Link>
+       { list.length > 1 ? <div className="option" onClick={this.clickHandler} ismenuitem={'true'}>
             <i className="fas fa-users" aria-hidden="true" ismenuitem={'true'}></i><span className="optionName" ismenuitem={'true'}>Switch User</span>
-        </div>
+        </div> : <></>}
                 {open ?
                     <div className="userList" ismenuitem={'true'}>    
                         {switchList.map((user, i) => {
@@ -55,12 +62,14 @@ class UserMenu extends Component {
                         })}
                     </div> : 
                     <></>}
+        <Link to={`/history/${currentUser.toLowerCase()}`} >
         <div className="option" ismenuitem={'true'}>
             <i className="fas fa-history" aria-hidden="true" ismenuitem={'true'}></i><span className="optionName" ismenuitem={'true'}>History</span>
         </div>
+        </Link>
     </div>
         </>)
     }
 }
 
-export default UserMenu;
+export default withRouter(UserMenu);

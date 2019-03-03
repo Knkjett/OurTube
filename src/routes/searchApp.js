@@ -3,7 +3,6 @@ import { getSearchResults, getItem, setItem } from '../services/service'
 import { withRouter ,Link} from 'react-router-dom'
 import { VideoCard, HiddenVid } from '../components/Search/searchList'
 import Footer from '../components/footer'
-
 class SearchApp extends Component {
   constructor(props) {
     super(props)
@@ -16,6 +15,8 @@ class SearchApp extends Component {
         userLists: ['guest'],
         users: {
           'guest': {
+            toWatchLater: [],
+            feeds:[],
             history: [],
             queries: [],
           }
@@ -126,30 +127,9 @@ class SearchApp extends Component {
       return (<this.historyList />)
     }
   }
-  handleChange = (event) => {
-    this.setState({ value: event.target.value });
+  componentWillReceiveProps = (newProps) =>{
+    this.doSearch(newProps.match.params.search)
   }
-  handleSubmit = () => {
-    this.props.history.push(`/search/${this.state.value}`)
-    this.doSearch(this.state.value, this.state.token)
-  }
-
-  // toVideo = (e) => {
-  //   let link = e.target.getAttribute('value')
-  //   // getVideoInfo(link)
-  //   // .then((vidData)=>{
-  //   //   console.log(vidData)
-  //   //   this.updateHistory(vidData)
-  //   //   .then((data) => {
-  //   //     this.setState({
-  //   //       appdata: data
-  //   //     })
-  //   //     setItem('appdata', data);
-  //   this.props.history.push(`/video/${link}`)
-  //   // })
-  //   // })
-
-  // }
 
   handleOnScroll = () => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
@@ -164,17 +144,9 @@ class SearchApp extends Component {
 
   render() {
     return (<>
-      <div className='container' onClick = {this.props.close}>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+      <div className='container searchAppContainer' onClick = {this.props.toggle}>
         <this.isSearch />
       </div>
-      <br />
-      <br />
       <Footer />
     </>)
   }

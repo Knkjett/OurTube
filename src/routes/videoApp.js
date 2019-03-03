@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { getSearchResults, getVideoInfo, setItem, getItem } from '../services/service'
 import { Row, Col, Button } from 'reactstrap';
 import VideoPlayer from '../components/Video/videoplayer';
 import Suggestions from '../components/Video/suggesstion';
 import Comments from '../components/Video/comments';
 import '../components/Video/suggestion.css';
-
+import Footer from '../components/footer';
 
 class VideoApp extends Component {
 
@@ -76,24 +76,14 @@ class VideoApp extends Component {
                     suggestionsResults: suggestionsResults2,
                     appdata: appdata2,
                   })
-                  
               setItem('appdata', this.state.appdata)
-              this.setState({
-                currentVid: videoStats,
-                tags: tags2,
-                suggestionsResults: suggestionsResults2,
-                appdata: appdata2,
-              })
           })
         })
       }
         else {
-          console.log('DATA====',data.users[currentUser].history)
           getVideoInfo(id)
             .then(videoData => {
               appdata2 = data;
-              console.log("HISTORY STATE===",this.state.appdata.users[currentUser].history)
-              // console.log(videoData)
               let videoStats = {
                 "vidID": id,
                 "channelTitle": videoData.channelTitle,
@@ -105,13 +95,9 @@ class VideoApp extends Component {
                 "title": videoData.title,
                 "viewCount": videoData.viewCount
               }
-              // console.log("videoStatsTags: ", videoData.tags);
-
               tags2 = videoStats.tags;
-
               getSearchResults(videoStats.tags, '')
                 .then(SuggestionsData => {
-                  // let arr = suggestionsResults2.concat(SuggestionsData)
                   suggestionsResults2 = suggestionsResults2.concat(SuggestionsData);
                   for (let i = 0; i < appdata2.users[currentUser].history.length; i++) {
                     if (id === appdata2.users[currentUser].history[i].vidID) {
@@ -125,8 +111,6 @@ class VideoApp extends Component {
                     suggestionsResults: suggestionsResults2,
                     appdata: appdata2,
                   })
-                  
-                  // console.log("this.State in cdidMount: ",this.state)
                   setItem('appdata', this.state.appdata)
                 })
             })
@@ -141,9 +125,6 @@ class VideoApp extends Component {
     let currentUserData = { ...this.state.appdata };
     const searchQuery =  this.state.tags[Math.floor(Math.random() * (this.state.tags.length -1))];  
     let cpySuggestionsResults = this.state.suggestionsResults;
-    // console.log("currentUser: ", currentUser)
-    // console.log("currentUserData: ", currentUserData)
-    // console.log("searchQuery: ", searchQuery)
 
     getSearchResults(searchQuery)
       .then(data => {
@@ -155,14 +136,10 @@ class VideoApp extends Component {
           appdata: currentUserData
         })
         setItem('appdata', this.state.appdata)
-      })
-    console.log(this.state)   
+      })  
   }
 
   handleClicked = (e) => {
-
-
-    
     const vidKey = e.target.getAttribute("vidid");
     let appDataCpy = { ...this.state.appdata };
     let currentUser = appDataCpy.userLists[0];
@@ -190,12 +167,10 @@ class VideoApp extends Component {
         // console.log("videoStats: ", videoStats);
         for (let i = 0; i < appDataCpy.users[currentUser].history.length; i++) {
           if (vidKey === appDataCpy.users[currentUser].history[i].vidID) {
-            console.log("HERE==",i)
             appDataCpy.users[currentUser].history.splice(i, 1);
           }
         }
         appDataCpy.users[currentUser].history.unshift(videoStats);
-        console.log('DATA=======',appDataCpy)
         tagsCpy = videoData.tags;
 
         this.setState({
@@ -216,27 +191,21 @@ class VideoApp extends Component {
     const suggestionsResultsCpy = this.state.suggestionsResults;
     // console.log("in the X ", vidIdx)
     const currentVideo = this.state.suggestionsResults[vidIdx]
-    suggestionsResultsCpy.splice(vidIdx,1);
-    console.log("currentVideo: ", currentVideo)
-
+    // suggestionsResultsCpy.splice(vidIdx,1);
     appDataCpy.users[currentUser].toWatchLater.push(currentVideo);
 
     this.setState({
       suggestionsResults: suggestionsResultsCpy,
       appData: appDataCpy,
     })
-
     setItem('appdata', this.state.appdata)
   }
-
 
   render() {
 
     // this.state.tags.map(e => { return console.log(e) })
     return (
-
       <>
-
         <div className="PageWrapper">
             <Col col-8>
               < VideoPlayer currentVid={this.state.currentVid} />
@@ -269,6 +238,7 @@ class VideoApp extends Component {
             </div>
           </Row>
         </div>
+        <Footer />
       </>
     )
   }
