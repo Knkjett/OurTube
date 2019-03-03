@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getSearchResults, getItem, setItem } from '../services/service'
-import { withRouter } from 'react-router-dom'
+import { withRouter ,Link} from 'react-router-dom'
 import { VideoCard, HiddenVid } from '../components/Search/searchList'
 import Footer from '../components/footer'
 
@@ -93,10 +93,10 @@ class SearchApp extends Component {
     else {
       return this.state.appdata.users[currentUser].queries[0].results.map((e, i) => {
         if (i < this.state.shownResults) {
-          return <VideoCard ele={e} key={i} cb={this.toVideo} />
+          return <Link to ={`/video/${e.vidID}`}><VideoCard ele={e} key={i} cb={this.toVideo} /> </Link>
         }
         else {
-          return <HiddenVid ele={e} key={i} cb={this.toVideo} />
+          return <Link to ={`/video/${e.vidID}`}><HiddenVid ele={e} key={i} cb={this.toVideo} /> </Link>
         }
       })
     }
@@ -110,10 +110,10 @@ class SearchApp extends Component {
     else {
       return this.state.appdata.users[username].history.map((e, i) => {
         if (i < this.state.shownResults) {
-          return <VideoCard ele={e} key={i} cb={this.toVideo} />
+          return <Link to ={`/video/${e.vidID}`}><VideoCard ele={e} key={i} cb={this.toVideo} /> </Link>
         }
         else {
-          return <HiddenVid ele={e} key={i} cb={this.toVideo} />
+          return <Link to ={`/video/${e.vidID}`}><HiddenVid ele={e} key={i} cb={this.toVideo} /> </Link>
         }
       })
     }
@@ -134,22 +134,22 @@ class SearchApp extends Component {
     this.doSearch(this.state.value, this.state.token)
   }
 
-  toVideo = (e) => {
-    let link = e.target.getAttribute('value')
-    // getVideoInfo(link)
-    // .then((vidData)=>{
-    //   console.log(vidData)
-    //   this.updateHistory(vidData)
-    //   .then((data) => {
-    //     this.setState({
-    //       appdata: data
-    //     })
-    //     setItem('appdata', data);
-    this.props.history.push(`/video/${link}`)
-    // })
-    // })
+  // toVideo = (e) => {
+  //   let link = e.target.getAttribute('value')
+  //   // getVideoInfo(link)
+  //   // .then((vidData)=>{
+  //   //   console.log(vidData)
+  //   //   this.updateHistory(vidData)
+  //   //   .then((data) => {
+  //   //     this.setState({
+  //   //       appdata: data
+  //   //     })
+  //   //     setItem('appdata', data);
+  //   this.props.history.push(`/video/${link}`)
+  //   // })
+  //   // })
 
-  }
+  // }
 
   handleOnScroll = () => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;

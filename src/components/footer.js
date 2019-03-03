@@ -24,19 +24,19 @@ class Footer extends Component{
               <ul className='list-unstyled'>
                 <li>
                 <i className="fas fa-home"></i>
-                <span onClick={this.toHome} style={{ textDecoration: 'none', color: '#ffffff', cursor:'pointer'}}> Home</span>
+                <span onClick={this.toHome} style={{ textDecoration: 'none', color: '#26263A', cursor:'pointer'}}> Home</span>
                 </li>
                 <li>
                 <i className="fas fa-user-edit"></i>
-                <span onClick={this.toEditor} style={{ textDecoration: 'none', color: '#ffffff', cursor:'pointer' }}> Editor</span>
+                <span onClick={this.toEditor} style={{ textDecoration: 'none', color: '#26263A', cursor:'pointer' }}> Editor</span>
                  </li>
                 <li>
                 <i className="fas fa-code-branch"></i>
-                  <a href='https://github.com/Knkjett/OurTube/blob/master/README.md' style={{ textDecoration: 'none', color: '#ffffff' }}> About Us</a>
+                  <a href='https://github.com/Knkjett/OurTube/blob/master/README.md' style={{ textDecoration: 'none', color: '#26263A' }}> About Us</a>
                 </li>
                 <li>
                 <i className="fab fa-github"></i>
-                  <a href='https://github.com/Knkjett/OurTube' style={{ textDecoration: 'none', color: '#ffffff' }}> GitHub</a>
+                  <a href='https://github.com/Knkjett/OurTube' style={{ textDecoration: 'none', color: '#26263A' }}> GitHub</a>
                 </li>
               </ul>
             </div>

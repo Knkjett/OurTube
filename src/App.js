@@ -7,10 +7,7 @@ import VideoApp from './routes/videoApp';
 import HomeApp from './routes/homeApp';
 import SearchApp from './routes/searchApp';
 import EditorApp from './routes/editorApp';
-
-const Err = () => {
-  return <h1>404</h1>
-}
+import Err from './routes/err';
 
 class App extends Component {
   constructor(props) {
