@@ -1,4 +1,21 @@
 .container{
     padding:0;
+    display: flex;
+    justify-content: center;
     margin-top: 80px;
+}
+
+.row{
+    width: 100%;
+    justify-content: center;
+}
+
+.nada{
+    display: flex;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    justify-content: center;
+    align-items: center;
+    background-color: #DDDDDD;
+    border-radius: 5px;
 }

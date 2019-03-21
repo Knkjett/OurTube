@@ -1,0 +1,4 @@
+.searchResult, :hover, :active, :visited, :active{
+    width: 100%;
+    text-decoration: none;
+}

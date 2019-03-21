@@ -1,37 +1,40 @@
 import React, { Component } from 'react';
 import { getSearchResults, getItem, setItem } from '../../services/service'
 import VideoCard from '../../components/Home/videocard'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import './feed.css';
 
 
 class Feed extends Component {
+
     constructor(props) {
         super(props)
         this.state = this.props.state;
     }
 
     getUpdate = (data) => {
+        console.log('getting update')
         const user = this.props.user
         const feeds = data.users[user].feeds
         const key = this.props.keyVal
         return getSearchResults(feeds[key].feedname, '', 4)
     }
 
-
-
+    clickHandler = (e) => {
+        this.props.history.push(`/video/${e.target.getAttribute('link')}`)
+    }
 
     clickFeedName = (e) => {
         const copy = this.state.appdata
         const key = this.props.keyVal
         const user = this.props.user
-        const feedname = this.props.name.slice(0, 1).toUpperCase() + this.props.name.slice(1);
         const feed = copy.users[user].feeds[key]
         feed.isCollapsed = !feed.isCollapsed;
         this.setState({ appdata: copy })
     }
 
     componentDidMount = () => {
+        console.log('feed mounting')
         getItem('appdata')
             .then(data => {
                 return this.getUpdate(data)
@@ -47,6 +50,7 @@ class Feed extends Component {
                     .then(this.setState({ appdata: copy }))
             })
     }
+    
 
     render() {
         const key = this.props.keyVal
@@ -76,7 +80,7 @@ class Feed extends Component {
                                                     </div>
                                                 </div> :
                                                 videos.map((video, i) => {
-                                                    return <VideoCard key={i} keyVal={i} toggle={this.props.toggle} clickHander={this.clickHander} info={video} />
+                                                    return <VideoCard key={i} keyVal={i} clickHandler={this.clickHandler} info={video} />
                                                 })
                                             }
                                         </div>
@@ -95,9 +99,7 @@ class Feed extends Component {
                                                     </div>
                                                 </div> :
                                                 videos.map((video, i) => {
-                                                    return (<Link to={`/video/${this.state.appdata.users[user].feeds[key].videos[i].vidID}`}>
-                                                        <VideoCard key={i} keyVal={i} toggle={this.props.toggle} clickHander={this.clickHander} info={video} />
-                                                    </Link>)
+                                                    return <VideoCard key={i} keyVal={i} toggle={this.props.toggle} clickHandler={this.clickHandler} info={video} />
                                                 })}
                                         </div>
                                     </div>

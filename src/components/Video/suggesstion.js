@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './suggestion.css';
-import { Card, CardImg, CardTitle, CardText, CardImgOverlay } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Card, CardImg} from 'reactstrap';
 
 class Suggestions extends Component {
   constructor(props) {

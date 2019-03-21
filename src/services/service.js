@@ -66,7 +66,7 @@ const getVideoInfo = (videoID) => {
         'description' : descParsed,
         'viewCount': info.statistics.viewCount,
         'publishedAt' : info.snippet.publishedAt,
-        'thumbnail': info.snippet.thumbnails.standard.url,
+        'thumbnail': `https://i.ytimg.com/vi/${videoID}/mqdefault.jpg`,
         'tags': tags,
       };
       return videoStats;
@@ -114,4 +114,65 @@ const setItem = (keyName, keyValue) => {
   })
 }
 
-export {getSearchResults, getVideoInfo, setItem, getItem}
+const initialize = () => {
+  console.log('initializing')
+  return getItem('appdata')
+  .then(data => {
+      if(data) return data;
+      else{
+        console.log('creating new data')
+        const nuData = {
+          userLists: ['guest'],
+          users: {
+            'guest': {
+              toWatchLater: [],
+              feeds: [
+                {
+                  feedname: 'cats',
+                  isLoading: false,
+                  isCollapsed: true,
+                  display: 4,
+                  videos: [
+                    {
+                      vidID: 'hY7m5jjJ9mM',
+                      title: 'CATS will make you LAUGH YOUR HEAD OFF - Funny CAT compilation',
+                      duration: '',
+                      channelTitle: 'Tiger FunnyWorks',
+                      description: 'Cats are amazing creatures because they make us laugh all the time! Watching funny cats is the hardest try not to laugh challenge! Just look how all these cats ...', // <--- description of the video
+                      viewCount: '',
+                      publishedAt: '2017-05-31T09:30:02.000Z',
+                      thumbnail: 'https://i.ytimg.com/vi/hY7m5jjJ9mM/mq.jpg'
+                    },
+                    {
+                      vidID: 'Rmx1JGTX1yw',
+                      title: 'Funniest CATS EVER - Die LAUGING NOW!',
+                      duration: '',
+                      channelTitle: 'Tiger FunnyWorks',
+                      description: 'Cats are the best pets and animals! Cats and kittens are so funny, they make us laugh and happy! They never fail to amuse us! This is the most impossible TRY ...', // <--- description of the video
+                      viewCount: '100', 
+                      publishedAt: '2018-07-26T11:00:05.000Z', 
+                      thumbnail: 'https://i.ytimg.com/vi/Rmx1JGTX1yw/mq.jpg'
+                    },
+                  ],
+                  updated: (Date.now() - 355000),
+              }],
+              history:[],
+              queries:[]
+            }}
+        }
+        return nuData;
+      }
+  }).then(data => {
+    setItem('appdata', data)
+    console.log(data)
+    return data
+  })
+}
+
+const copyObject = (obj) => {
+  let newObj = JSON.stringify(obj)
+  newObj = JSON.parse(newObj)
+  return newObj
+}
+
+export {getSearchResults, getVideoInfo, setItem, getItem, initialize, copyObject}

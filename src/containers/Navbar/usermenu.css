@@ -1,6 +1,6 @@
 
 .menu{
-    position: absolute;
+    position: fixed;
     padding: 0 !important;
     z-index: 3;
     top: 0;

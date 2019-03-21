@@ -90,6 +90,7 @@ class EditorApp extends Component {
         selectedIndex: lastIndex,
         appdata: { userLists: newUserList, users: newUsersObj },
       }, () => {
+        console.log('updating LS with: ', this.state.appdata)
         setItem('appdata', this.state.appdata)
       });
     }
@@ -142,6 +143,7 @@ class EditorApp extends Component {
       userSrchInputField: '',
       userSrchStr: '',
     }, () => {
+      console.log('setting item in editorApp')
       setItem('appdata', this.state.appdata)
     });
   }
@@ -179,6 +181,7 @@ class EditorApp extends Component {
         selectedIndex,
       }, () => {
         alert(`${user}'s account permanently deleted.`)
+        console.log('setting item in editorApp')
         setItem('appdata', this.state.appdata)
       })
     } else {
@@ -209,7 +212,7 @@ class EditorApp extends Component {
       const newFeedObj = {
         feedname: newFeed,
         videos: [],
-        lastUpdated: new Date(),
+        lastUpdated: Date.now() - 360001,
       };
       newUsersObj[userKey].feeds.unshift(newFeedObj);
 
@@ -217,6 +220,7 @@ class EditorApp extends Component {
         users: newUsersObj,
         addFeedInputField: '',
       }, () => {
+        console.log('setting item in editorApp')
         setItem('appdata', this.state.appdata)
       });
     }
@@ -268,6 +272,7 @@ class EditorApp extends Component {
     const newUserLists = [...this.state.appdata.userLists];
     const newObj = { userLists: newUserLists, users: newUsersObj };
     this.setState({ appdata: newObj }, () => {
+      console.log('setting item in editorApp')
       setItem('appdata', this.state.appdata)
     });
   }
@@ -284,15 +289,18 @@ class EditorApp extends Component {
     const newAppData = { users: newUsersObj, userLists: newUserLists }
 
     this.setState({ appdata: newAppData }, () => {
+      console.log('setting item in editorApp')
       setItem('appdata', this.state.appdata)
     });
   }
   // <--------------------- Feed Dropdown Logic
 
   componentDidMount = () => {
+    console.log('getting item')
     getItem('appdata')
       .then((data) => {
         if (!data) {
+          console.log('setting item in editorApp')
           setItem('appdata', this.state.appdata)
         }
         else {

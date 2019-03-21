@@ -38,15 +38,18 @@ class SearchApp extends Component {
           shownResults: 8,
           appdata: userState
         })
+        console.log('setting item in searchApp')
         setItem('appdata',this.state.appdata);
       })
   }
 
   componentDidMount = () => {
     window.addEventListener('scroll', this.handleOnScroll);
+    console.log('getting item')
     getItem('appdata')
       .then((data) => {
         if (!data) {
+          console.log('setting item in searchApp')
           setItem('appdata', this.state.appdata)
         }
         else {
@@ -94,7 +97,7 @@ class SearchApp extends Component {
     else {
       return this.state.appdata.users[currentUser].queries[0].results.map((e, i) => {
         if (i < this.state.shownResults) {
-          return <Link to ={`/video/${e.vidID}`}><VideoCard ele={e} key={i} cb={this.toVideo} /> </Link>
+          return <Link className={'searchResult'} to ={`/video/${e.vidID}`}><VideoCard ele={e} key={i} cb={this.toVideo} /> </Link>
         }
         else {
           return <Link to ={`/video/${e.vidID}`}><HiddenVid ele={e} key={i} cb={this.toVideo} /> </Link>

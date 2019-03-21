@@ -36,7 +36,7 @@ class VideoApp extends Component {
     let tags2 = this.state.tags;
     const currentUser = this.state.appdata.userLists[0];
     const { id } = this.props.match.params;
-
+    console.log('getting item')
     getItem('appdata')
       .then((data) => {
         if (!data) {
@@ -76,6 +76,7 @@ class VideoApp extends Component {
                     suggestionsResults: suggestionsResults2,
                     appdata: appdata2,
                   })
+              console.log('setting item in videoApp')
               setItem('appdata', this.state.appdata)
           })
         })
@@ -111,6 +112,7 @@ class VideoApp extends Component {
                     suggestionsResults: suggestionsResults2,
                     appdata: appdata2,
                   })
+                  console.log('setting item in videoApp')
                   setItem('appdata', this.state.appdata)
                 })
             })
@@ -121,7 +123,7 @@ class VideoApp extends Component {
 
   loadMore = () => {
 
-    const currentUser = this.state.appdata.userLists[0];
+    // const currentUser = this.state.appdata.userLists[0];
     let currentUserData = { ...this.state.appdata };
     const searchQuery =  this.state.tags[Math.floor(Math.random() * (this.state.tags.length -1))];  
     let cpySuggestionsResults = this.state.suggestionsResults;
@@ -135,6 +137,7 @@ class VideoApp extends Component {
           suggestionsResults: cpySuggestionsResults,
           appdata: currentUserData
         })
+        console.log('setting item in videoApp')
         setItem('appdata', this.state.appdata)
       })  
   }
@@ -178,6 +181,7 @@ class VideoApp extends Component {
           tags: tagsCpy,
           appdata: appDataCpy
         })
+        console.log('setting item in videoApp')
         setItem('appdata', this.state.appdata)
 
       })
@@ -198,6 +202,7 @@ class VideoApp extends Component {
       suggestionsResults: suggestionsResultsCpy,
       appData: appDataCpy,
     })
+    console.log('setting item in videoApp')
     setItem('appdata', this.state.appdata)
   }
 

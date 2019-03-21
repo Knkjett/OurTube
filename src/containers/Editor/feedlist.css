@@ -31,3 +31,8 @@
 .explore-feed:hover {
     text-decoration: none;
 }
+.search-div {
+    width: 100%;
+    padding: 1px;
+    border-bottom: 1px solid lightgrey;
+}

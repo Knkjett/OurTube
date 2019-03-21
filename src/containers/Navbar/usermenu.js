@@ -16,14 +16,10 @@ class UserMenu extends Component {
             }
         }
     }
-    componentWillReceiveProps = (newProps) =>{
-        this.setState({test: this.state.test++})
-        console.log(this.state.test)
-      }
+
     clickHandler = () => {
         const userList = this.state.userList;
         userList.isOpen = !userList.isOpen;
-        console.log(userList)
         this.setState({userList: userList})
     }
 
